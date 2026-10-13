@@ -19,6 +19,7 @@ the founder, with five approved lessons about operating AI coding agents.
 | One legacy transaction pays two recipients: seller +9000, marketplace +1000, payer −10000 (atomic units of a test token) | `docs/evidence/gate1/SUMMARY-live-devnet-20261009.md` and the raw RPC responses beside it | Live **devnet**, re-derived from the chain by a second path. Test token on throwaway keys |
 | A failing second leg moves nothing: `InstructionError [1, Custom 17]`, all token deltas 0, only the network fee is charged | same directory | Live devnet |
 | After `SIGKILL` at five points (after-sign, after-broadcast, after-receipt, after-freeze, before-thaw), a later run returns the identical answer and receipt, with no replacement transaction | same directory | Live devnet |
+| A founder-to-founder split on Solana mainnet-beta: 0.01 USDC as 9000 + 1000 in one legacy transaction (two `transferChecked` and a memo), USDC deltas −10000 / +9000 / +1000, no error | [Explorer](https://explorer.solana.com/tx/Yb9vEynr6weKCF7sjfm8MsA8hm9gtESr1TwZJiMsuzHKJit2on8zdkuB6mAdkgKsq5EhtZ3dRe5XuQAPeoGutbU) | Live **mainnet**, finalized (slot 456338684) and re-derived from a public RPC. One attempt, founder to founder; **not** an agent purchase |
 | Five lessons and their questions were approved by the founder, then sealed with SHA-256 hashes | `docs/evidence/content/approval-index.md` | Human approval record |
 | A matched A/B/C study with Codex as the buyer (A no consultation, B free checklist, C paid consultation, **simulated payment**): no difference detected | `docs/impl/decision-log.md`, entries L8 and L9 | Exploratory, n = 6 incidents × 1 run; passes A 2 / B 2 / C 2 of 18 slots, nothing improved or regressed |
 | Returning the procedural denial code to the agent (a labelled follow-up variant, not merged with the study above) raised passes from 6 to 11 of 18 | same entries | Exploratory, post-hoc variant; the same 6 incidents |
@@ -26,9 +27,7 @@ the founder, with five approved lessons about operating AI coding agents.
 
 ## What is not claimed
 
-- **No mainnet purchase has happened yet.** Our honest line: "the founder-to-founder mainnet test is
-  not completed. Funds movement and the fee split will be shown only when verified at a transaction
-  link; it does not show demand. This hackathon takes no external paid orders."
+- **The mainnet run is a transfer, not a purchase.** It used the same transaction shape, founder to founder. The full agent purchase (broker, seller, quote, human-signed approval) has not been run on mainnet. We do not claim demand, and this hackathon takes no external paid orders.
 - A human-signed devnet purchase did not land: the approval took about 60 s while a devnet blockhash
   lives about 37 s, so the transaction expired before broadcast and no funds moved. A same-quote
   renewal path (new blockhash, same quote) is implemented and tested, but has not yet been run on a real terminal.
