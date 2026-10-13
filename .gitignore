@@ -11,3 +11,4 @@ dist/
 .kit-smoke.mjs
 !docs/evidence/
 !docs/evidence/**
+.vercel

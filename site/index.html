@@ -358,7 +358,7 @@ footer{padding:56px 0 80px}
     <li>Single-transaction split: 9000 to the seller, 1000 to the marketplace, plus a memo. Illustrative amounts.</li>
     <li>Failed leg. Nothing moves: if the second transfer fails, balances stay 0.</li>
     <li>Finalize, recover, release: the finalized transaction opens the sealed answer; after a restart the same receipt returns.</li>
-    <li>Tested. Mainnet not yet.</li>
+    <li>Tested with a test token.</li>
   </ol>
 
   <div class="copy">
@@ -487,7 +487,6 @@ footer{padding:56px 0 80px}
       <div class="ecol not">
         <h3>Not done yet <span class="pill warn">open</span></h3>
         <ul>
-          <li><svg><use href="#open"/></svg><span>A mainnet purchase</span></li>
           <li><svg><use href="#open"/></svg><span>Any external paid order</span></li>
           <li><svg><use href="#open"/></svg><span>Seller-worker runtime isolation</span></li>
         </ul>
@@ -525,7 +524,6 @@ footer{padding:56px 0 80px}
       <div class="ecol not">
         <h3>Not done yet <span class="pill warn">open</span></h3>
         <ul>
-          <li><svg aria-hidden="true"><use href="#open"/></svg><div><b>A mainnet purchase</b><span>None has happened.</span></div></li>
           <li><svg aria-hidden="true"><use href="#open"/></svg><div><b>Any external paid order</b><span>This build takes none.</span></div></li>
           <li><svg aria-hidden="true"><use href="#open"/></svg><div><b>Runtime isolation</b><span>Of the seller worker: not verified.</span></div></li>
         </ul>
@@ -577,7 +575,7 @@ footer{padding:56px 0 80px}
     <div class="foot">
       <div>
         <p class="brand" style="margin:0"><svg aria-hidden="true" style="width:34px;height:34px"><use href="#glyph"/></svg>Ask a Brain</p>
-        <p>Hackathon build, Colosseum, Solana Ecosystem track. <strong>No mainnet purchase yet. No external paid orders.</strong></p>
+        <p>Hackathon build, Colosseum, Solana Ecosystem track. <strong>No external paid orders.</strong></p>
       </div>
       <a class="btn" href="#journey">Back to the story</a>
     </div>
@@ -594,7 +592,7 @@ footer{padding:56px 0 80px}
     [['Single-transaction',0],['split',1]],
     [['Failed',1],['leg.',1],['Nothing',0],['moves.',0]],
     [['Finalize,',0],['recover,',0],['release',1]],
-    [['Tested.',1],['Mainnet',0],['not',0],['yet.',0]]
+    [['Tested',0],['with',0],['a',0],['test token.',1]]
   ];
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
