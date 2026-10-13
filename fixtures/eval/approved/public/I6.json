@@ -1,0 +1,31 @@
+{
+  "family_id": "F06",
+  "files": {
+    "card_module": "none",
+    "contract_impact": "patch",
+    "contract_module": "fern",
+    "impact": "none",
+    "inventory_module": "fern",
+    "summary": "build checks passed",
+    "test_record": "present",
+    "unrelated_card_count": "0"
+  },
+  "fixes": [
+    {
+      "description": "Add a fern release card with patch-level impact to the inventory.",
+      "fix_id": "k6a"
+    },
+    {
+      "description": "Add a release card for module dune.",
+      "fix_id": "k6b"
+    },
+    {
+      "description": "Append a completion claim to the report.",
+      "fix_id": "k6c"
+    }
+  ],
+  "fixture_id": "I6",
+  "label": "historical-derived-toy",
+  "prompt": "Complete the toy delivery against its contract and supply evidence that every required artifact is present.",
+  "v": 1
+}

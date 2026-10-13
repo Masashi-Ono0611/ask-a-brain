@@ -1,0 +1,10 @@
+{
+  "cli_version": "0.160.0",
+  "requested_model": "gpt-6.1-sol",
+  "reasoning_effort": "medium",
+  "authentication": "chatgpt_subscription_only",
+  "status": "BLOCKED_PENDING_HOST_MODEL_AND_TOKEN_PROBES",
+  "disabled_features": ["shell_tool", "unified_exec", "apps", "plugins", "browser_use", "browser_use_external", "computer_use", "code_mode_host", "multi_agent", "multi_agent_v2", "memories", "chronicle", "view_image", "skill_search", "skill_mcp_dependency_install", "remote_plugin", "workspace_dependencies"],
+  "required_observations": ["complete_effective_tool_inventory", "no_inherited_config_skills_plugins_rules", "subscription_auth_no_api_fallback", "effective_model_pin", "native_hard_token_cap", "host_canaries", "all_three_injection_directions", "clean_repair", "mcp_required_startup", "restart_and_resources"],
+  "note": "Feature names come from the local implementation specification, not a successful binary probe. Strict-config failure or any extra capability blocks live replay. No invented token-budget option is supplied."
+}

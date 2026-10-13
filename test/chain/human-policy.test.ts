@@ -1,0 +1,36 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import type { Id, ReservationRow } from '../../src/wire/contracts.ts';
+import { payloadHash, signEnvelope } from '../../src/wire/index.ts';
+import { openStore } from '../../src/common/index.ts';
+import { createHumanAuthorizer, DEVNET_GENESIS, generateThrowawayKey, importCliKey } from '../../src/chain/index.ts';
+import { fixture } from './support.ts';
+for (const guard of ['envelope', 'pin', 'payer', 'reservation', 'arm', 'expiry', 'fee', 'eligibility', 'network'] as const) test(`protected human policy ${guard}: rejects then restored clean authorization passes`, async t => {
+  const f = fixture(); const root = mkdtempSync(join(tmpdir(), 'aab-policy-')); t.after(() => rmSync(root, { recursive: true, force: true })); const store = openStore(join(root, 'broker-snapshot.db')); t.after(() => store.close());
+  const seal = generateThrowawayKey(); const key = importCliKey(seal.keyBytes).key; const id = 'test-seal' as Id;
+  const quote = signEnvelope('quote', f.quote.payload, id, key, { kind: 'quote', actor: 'test', approvalId: id, payloadHash: payloadHash(f.quote.payload) });
+  const arm = signEnvelope('arm', f.request.arm.payload, id, key, { kind: 'arm', actor: 'test', approvalId: id, payloadHash: payloadHash(f.request.arm.payload) });
+  const request = { ...f.request, quote, arm }; const expected = { ...f.payment.expected, quote };
+  const reservation: ReservationRow = { consult_id: 'test-consult' as Id, payer: f.key.publicKey, day_utc: '2026-10-09', principal: quote.payload.total_atomic, maximum_fee: request.maximumFee, status: 'held' };
+  store.transaction(tx => { tx.insert('reservations', request.reservationId, reservation); tx.insert('arms', request.quoteId, { quote_id: request.quoteId, message_sha256: request.messageHash, arm }); });
+  let eligible = true;
+  const authorize = createHumanAuthorizer({ genesis: DEVNET_GENESIS, payer: expected.payer, sellerKey: { id, algorithm: 'Ed25519', public_key: seal.publicKey }, reservationId: request.reservationId,
+    quoteHash: payloadHash(quote.payload), registryHash: request.registryHash, manifestHash: request.manifestHash, questionPolicyHash: request.questionPolicyHash, allowMainnet: false, rpc: f.primary, store, clock: f.clock, eligible: async () => eligible });
+  let bad = structuredClone(request); let wrongExpected = expected;
+  if (guard === 'envelope') bad = { ...bad, quote: { ...bad.quote, signature: { ...bad.quote.signature, value: Buffer.alloc(64).toString('base64url') } } };
+  if (guard === 'pin') bad = { ...bad, registryHash: payloadHash('wrong') };
+  if (guard === 'payer') wrongExpected = { ...expected, payer: { ...expected.payer, tokenAccount: quote.payload.mint } };
+  if (guard === 'reservation') store.transaction(tx => tx.compareAndSet('reservations', request.reservationId, 1, { ...reservation, status: 'resolved' }));
+  if (guard === 'arm') bad = { ...bad, arm: { ...arm, payload: { ...arm.payload, last_valid_block_height: 1 } } };
+  if (guard === 'expiry') f.primary.state.height = request.blockhash.lastValidBlockHeight + 1;
+  if (guard === 'fee') f.primary.fee = String(BigInt(request.maximumFee) + 1n) as never;
+  if (guard === 'eligibility') eligible = false;
+  if (guard === 'network') bad = { ...bad, network: 'mainnet-beta' };
+  await assert.rejects(authorize(bad, wrongExpected));
+  if (guard === 'reservation') store.transaction(tx => tx.compareAndSet('reservations', request.reservationId, 2, reservation));
+  f.primary.state.height = 1; f.primary.fee = f.request.estimatedFee; eligible = true;
+  await authorize(request, expected);
+});

@@ -1,0 +1,1 @@
+{"jsonrpc":"2.0","result":{"context":{"apiVersion":"4.4.0-beta.0","slot":509033804},"value":[{"confirmationStatus":"finalized","confirmations":null,"err":null,"slot":509032833,"status":{"Ok":null}}]},"id":25}

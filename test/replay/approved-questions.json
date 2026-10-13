@@ -1,0 +1,72 @@
+[
+  {
+    "id": "Q01",
+    "version": 1,
+    "text": "The agent says the task is complete; what should I verify before accepting its report?",
+    "lesson": "L1",
+    "sha256_of_utf8_text": "8eece7294b933c62071b9c91e36eacd0043b6d4bcbe134a918cd57ba209b1c88"
+  },
+  {
+    "id": "Q02",
+    "version": 1,
+    "text": "I am about to repeat an old pending status; how do I avoid reporting stale state?",
+    "lesson": "L1",
+    "sha256_of_utf8_text": "552ec1b8bc23a0ca9714d836e15b573e52c301b86fea89010137527fa1ec3803"
+  },
+  {
+    "id": "Q03",
+    "version": 1,
+    "text": "My isolated worker is seeing unexpected files or dependencies; which boundaries should I inspect?",
+    "lesson": "L2",
+    "sha256_of_utf8_text": "41073242b720817a7a9acef1d80920a8e0991cfcc4aaaca4a4e2ab2cb3a70c52"
+  },
+  {
+    "id": "Q04",
+    "version": 1,
+    "text": "I am testing a preview in an isolated workspace; how do I check whether it can still write outside it?",
+    "lesson": "L2",
+    "sha256_of_utf8_text": "4340be214174aa6d7bfbb3197f98cd2fd7bda719a262a78cadfe3aa147e42180"
+  },
+  {
+    "id": "Q05",
+    "version": 1,
+    "text": "My CI run shows cancelled with no error; what should I check before rerunning?",
+    "lesson": "L3",
+    "sha256_of_utf8_text": "fd901484a50d32f3d738e0601be138eacef0a32b226af5cef6107161eabd6e52"
+  },
+  {
+    "id": "Q06",
+    "version": 1,
+    "text": "My CI retry stays queued with no jobs after an outage; when should I stop waiting?",
+    "lesson": "L3",
+    "sha256_of_utf8_text": "545717b53671999c94d7e1273fc536620bc44f288be4df606a1ff3e984642988"
+  },
+  {
+    "id": "Q07",
+    "version": 1,
+    "text": "I interrupted a test suite and its port still responds; how do I recover safely?",
+    "lesson": "L4",
+    "sha256_of_utf8_text": "4db4339f7aa45eb65d7c2f7ebdfe7cf11a67339803ce41dfebac936c805b0a38"
+  },
+  {
+    "id": "Q08",
+    "version": 1,
+    "text": "Old test data looks unused while a harness is running; can I clean it up?",
+    "lesson": "L4",
+    "sha256_of_utf8_text": "6a73a952a8836809b491f50c63eea649d47d20112d34a5023dd83a0d5508b9b3"
+  },
+  {
+    "id": "Q09",
+    "version": 1,
+    "text": "My stacked branch conflicts after its predecessor was squash-merged; how should I recover?",
+    "lesson": "L5",
+    "sha256_of_utf8_text": "9e2f5411bedbf360d31b1a51f0a884e5fe2fa3bf7d6cc87ad5204eddabb1036f"
+  },
+  {
+    "id": "Q10",
+    "version": 1,
+    "text": "Before stacking more work, how can I tell whether the predecessor already landed under a different commit?",
+    "lesson": "L5",
+    "sha256_of_utf8_text": "b35248cba28296b78df7f9c4cbd47ceb08dd31e56666c68185aa7d92f3e02085"
+  }
+]

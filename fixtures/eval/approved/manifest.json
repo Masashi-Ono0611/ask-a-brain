@@ -1,0 +1,81 @@
+{
+  "answer_map_source_sha256": "1825a74fa6d2f3f420d2182fbf98d54f784c94901cb91b76220ca7a697a94c49",
+  "cases": [
+    {
+      "critical_predicates": 2,
+      "family_id": "F01",
+      "fixture_id": "I1",
+      "fixture_sha256": "403d061138b63c0cd9d84b166e1483ed4e61a7791e6981db8c70507acfa30cab",
+      "paths_sha256": "b4970f6c9d91d0d2a4ba069bbc9b0d8def40ce1da459ac688fe424ea7bffa535",
+      "primary": true,
+      "rubric_sha256": "7b569c3c4603fdfefd771a478d0fef798bba96bde84da58e8e64511b0f360e1b",
+      "source_sha256": "f1f46251a86b40c01be98e1a7922a24b85d4c689e113f41da7a0567988b95572",
+      "state_predicates": 6
+    },
+    {
+      "critical_predicates": 2,
+      "family_id": "F02",
+      "fixture_id": "I2",
+      "fixture_sha256": "bf421117df6a8e1505a4018d38599d0c2c55d42d927e476e91f8502fb8d6731b",
+      "paths_sha256": "4ff5f285f42303b014b181879372ddf1c55b803e61d4c68e9972980030733664",
+      "primary": true,
+      "rubric_sha256": "650ededdbc8d8f194cfc362c4b7d22629a49d4717741c3ff16814a57c9f427e5",
+      "source_sha256": "9387ede63b02eb5d0d6dd7da1878aa30522b1313bbb9e19f0324f66f5e69d576",
+      "state_predicates": 8
+    },
+    {
+      "critical_predicates": 2,
+      "family_id": "F04",
+      "fixture_id": "I4",
+      "fixture_sha256": "a2e77084b9faf5b94947ab369be585690d7de15828c2f5c62812710c89d55e10",
+      "paths_sha256": "35a228f3a1b4eee4eb60941eba790210e81c432ccd372f37062a44d39c89aa25",
+      "primary": true,
+      "rubric_sha256": "82d8c057c8968eed06087ca2c6321293d857ad647d2cba6ed1364a07abf78fef",
+      "source_sha256": "bfb5bc8c39868aca30fe719bf52ea5d90561144b2a948dd9a93cf9fe4c6e9122",
+      "state_predicates": 6
+    },
+    {
+      "critical_predicates": 1,
+      "family_id": "F05",
+      "fixture_id": "I5",
+      "fixture_sha256": "8557d23777a4ee8357af5386318925a2b38b9a775c95df8fe16787ac40835364",
+      "paths_sha256": "c6e3383ecf55c6c744edf9ee9b4b3807d4f97d18e953b90b132da863fabd9ef7",
+      "primary": true,
+      "rubric_sha256": "5fbc3f0f5db9ba184505aedac55f257df6cf60aeda7ea95d0a2cb93e7f742f40",
+      "source_sha256": "569df16e2165eb515d65f073c06b9d4f0be3bd868b9782d883c3a7df8939e6ae",
+      "state_predicates": 5
+    },
+    {
+      "critical_predicates": 2,
+      "family_id": "F06",
+      "fixture_id": "I6",
+      "fixture_sha256": "4a5e0b9a93be36e6ad188a5b246d7ae846624acebceb18110c06d210715da7e9",
+      "paths_sha256": "225f8c2d315a57b304473e08cad830b972c061ab1610a2f87eeb7339b33e316f",
+      "primary": true,
+      "rubric_sha256": "33f5569899a49863d4a07b32d5b9685d39a26fc0ff642a7a02ff138c5e0286d3",
+      "source_sha256": "75d503d0610eff4c99d5b2e97801f265fd3da489efdac66a6fe74e00046f12b5",
+      "state_predicates": 6
+    },
+    {
+      "critical_predicates": 3,
+      "family_id": "F08",
+      "fixture_id": "I8",
+      "fixture_sha256": "63952ff8d0db8c349dc4e20a80cbef874e8c8b61c877bc717616c0900868ed1b",
+      "paths_sha256": "9c54cbe0e4e89c8305ceee0394a2b4db5c5886ca4ee3e9ba3f02a22f761fe246",
+      "primary": true,
+      "rubric_sha256": "58296bf21826539178ee1935a7f61746aa44d1cceb666415fa4637df412bc940",
+      "source_sha256": "59a7130abc5298a6db02557ab52ba384766f11c58ecb300a4bdb8305974b4d95",
+      "state_predicates": 8
+    }
+  ],
+  "lessons": {
+    "L1": "dce6195597ebff15ae123651af03a7c8ec7546ddf9ad68706d341678de210ff8",
+    "L2": "f0db27f4faa4304bb853c2dc5818b321610d9a53393eaf248176ab29d6d7cece",
+    "L3": "318cf8ec46d9f2395d27ccccd8e207cc404ee43dca7b7591a9a1ab3e508f9d36",
+    "L4": "2296b2cbe5291d7e23148a5d29a73596f23b2575da8609ad8c0729006a783c64",
+    "L5": "6efc1a09ab011b435adc795fdf0fbe9ab1a0c7ddd800c1fe969d29e2363a1f04"
+  },
+  "overlap_sha256": "6e450e7fe1ab5598261f736d973bcdb079e54c6582228443d813493aaa45e343",
+  "question_source_sha256": "fc267d1f9ccbc10a0e55c9584a4cfd9abd36df96469c7a8c2ddfe895d53f6ac7",
+  "v": 1
+}

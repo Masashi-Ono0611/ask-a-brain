@@ -1,0 +1,29 @@
+# LEAD MUST replace every ACTION@<SHA-TODO> with a verified full commit SHA.
+# Prepared only: CI has not run. Lead must also provision checksum-verified
+# system gitleaks 8.30.1; absent/mismatched scanner fails closed.
+name: ci
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  deterministic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@<SHA-TODO>
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@<SHA-TODO>
+        with:
+          node-version: 24.13.0
+      - run: npm ci --ignore-scripts
+      - run: npm run check:toolchain
+      - run: npm run typecheck
+      - run: npm run check:boundaries
+      - run: npm test
+      - run: npm run check:secrets
+      - run: git diff --check

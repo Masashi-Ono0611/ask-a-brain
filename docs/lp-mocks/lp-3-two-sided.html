@@ -1,0 +1,956 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ask a Brain</title>
+<meta name="description" content="MOCK landing page, variant 3 (two-sided view). Hackathon build.">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{
+  color-scheme: light;
+  --paper:#FFFBF2;
+  --cream:#FBF4E6;
+  --ink:#2A2420;
+  --ink-2:#5B524A;
+  --line:rgba(42,36,32,.14);
+  --accent:#C9411A;
+  --accent-soft:#F7D9CB;
+  --sage:#DDE7CF;
+  --butter:#F5E2A6;
+  --blush:#F3D3C6;
+  --sky:#DCE8EE;
+  --mint:#BDE6C8;
+  --gold:#F2C14E;
+  --ground:#B9D39D;
+  --buyer-bg:#E3EDF1;
+  --owner-bg:#FBEBD0;
+  --buyer:#2C5F72;
+  --owner:#83500F;
+  --display:"Bricolage Grotesque", ui-rounded, "SF Pro Rounded", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --body:"Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --radius:28px;
+  --shadow:0 1px 0 rgba(42,36,32,.06), 0 18px 40px -22px rgba(42,36,32,.35);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--cream);color:var(--ink)}
+body{font-family:var(--body);font-size:17px;line-height:1.5;overflow-x:clip;-webkit-font-smoothing:antialiased}
+svg{display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:10px}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.mock-label{position:fixed;z-index:50;right:12px;bottom:12px;font:700 10.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:7px 10px;border-radius:99px;opacity:.85;pointer-events:none}
+
+/* ---------- Journey ---------- */
+.journey{position:relative;height:700svh}
+.stage{position:sticky;top:0;height:100svh;min-height:600px;padding:14px}
+.surface{position:relative;height:100%;overflow:hidden;isolation:isolate;border-radius:var(--radius);background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow)}
+.half{position:absolute;top:0;bottom:0;width:50%;z-index:0}
+.half.l{left:0;background:var(--buyer-bg)}
+.half.r{right:0;background:var(--owner-bg)}
+.seam{position:absolute;z-index:1;top:50%;bottom:0;left:50%;width:0;border-left:2px dashed rgba(42,36,32,.22)}
+.surface::after{content:"";position:absolute;z-index:1;left:0;right:0;bottom:0;height:78px;background:var(--ground)}
+
+.topbar{position:absolute;z-index:9;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px}
+.brand{display:flex;align-items:center;gap:10px;margin:0;font:800 22px/1 var(--display);letter-spacing:-.03em}
+.brand svg{width:34px;height:34px}
+.chip-mock{font:700 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;border:1.5px solid var(--ink);border-radius:99px;padding:5px 8px;margin-left:4px}
+.skip{display:inline-flex;align-items:center;gap:6px;min-height:40px;font:700 14px/1 var(--body);text-decoration:none;padding:10px 14px;border-radius:99px;background:var(--paper);border:1.5px solid var(--ink)}
+.skip:hover{background:var(--butter)}
+
+/* hero (beat 1) */
+.hero{position:absolute;z-index:7;top:11%;left:0;right:0;padding:0 20px;text-align:center}
+.tag{display:inline-block;font:700 11px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);background:var(--paper);border:1px solid var(--line);padding:7px 11px;border-radius:99px;margin:0 0 14px}
+.hero h1{margin:0 auto;max-width:15ch;font:800 clamp(34px,5.4vw,78px)/1 var(--display);letter-spacing:-.035em}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero .sub{max-width:40ch;margin:14px auto 0;font-size:clamp(16px,1.45vw,19px);color:var(--ink-2)}
+.cta-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:20px}
+.cta{display:inline-flex;flex-direction:column;align-items:flex-start;gap:3px;min-height:48px;padding:9px 16px 10px;border-radius:18px;border:1.5px solid var(--ink);text-decoration:none;box-shadow:3px 4px 0 var(--ink);transition:transform .15s,box-shadow .15s;text-align:left}
+.cta small{font:700 10.5px/1.1 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.cta span{font:800 16px/1.1 var(--display)}
+.cta:hover{transform:translate(-1px,-1px);box-shadow:4px 5px 0 var(--ink)}
+.cta.buyer{background:var(--buyer-bg)}
+.cta.buyer small{color:var(--buyer)}
+.cta.owner{background:var(--owner-bg)}
+.cta.owner small{color:var(--owner)}
+
+/* kinetic captions */
+.caps{position:absolute;z-index:6;top:11%;left:0;right:0;padding:0 18px;text-align:center;pointer-events:none}
+.cap{position:absolute;left:0;right:0;top:0;padding:0 18px;margin:0;opacity:var(--v,0)}
+.cap .k{display:block;font:700 11px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-2);margin-bottom:14px}
+.cap .t{display:block;font-family:var(--display);font-weight:800;font-size:clamp(34px,5vw,74px);line-height:1;letter-spacing:.04em;text-transform:uppercase;font-variation-settings:"opsz" 96}
+.cap .w{display:inline-block;white-space:nowrap;margin:0 .14em}
+.cap .w.a{color:var(--accent)}
+.cap .ch{display:inline-block;transform:translateY(calc((1 - var(--v,0)) * (0.45em + var(--i) * 0.05em)));opacity:calc(var(--v,0) * 1.6 - var(--i) * 0.03)}
+
+/* scene */
+.scene{position:absolute;z-index:3;left:0;right:0;bottom:78px;height:calc(72% - 78px);width:100%;overflow:visible}
+.scene text{font-family:var(--mono);font-weight:700}
+.bot-bob{animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-4px)}}
+.arm-r{transform-box:fill-box;transform-origin:15% 8%;transition:transform .25s ease}
+.retry,.sweat{opacity:0}
+.retry-spin{transform-box:fill-box;transform-origin:50% 50%;animation:spin 1.3s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.s-b1 .retry{opacity:1}
+.s-sweat .sweat{animation:drip 1.6s ease-in infinite}
+@keyframes drip{0%{opacity:0;transform:translateY(-4px)}20%{opacity:1}80%{opacity:1;transform:translateY(16px)}100%{opacity:0;transform:translateY(20px)}}
+.eyes-happy,.mouth-happy,.k-happy{opacity:0}
+.s-bothappy .eyes-worry,.s-bothappy .mouth-worry,.s-bothappy .brows{opacity:0}
+.s-bothappy .eyes-happy,.s-bothappy .mouth-happy{opacity:1}
+.s-kphappy .k-eyes{opacity:0}
+.s-kphappy .k-happy{opacity:1}
+.k-eyes{transform-box:fill-box;transform-origin:50% 50%;animation:blink 4.6s infinite}
+@keyframes blink{0%,94%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+.leg{transform-box:fill-box;transform-origin:50% 0}
+.s-walk .leg-l{animation:step .3s ease-in-out infinite alternate}
+.s-walk .leg-r{animation:step .3s ease-in-out .15s infinite alternate}
+@keyframes step{to{transform:translateY(-7px) scaleY(.82)}}
+.wax-s,.flap{transform-box:fill-box}
+.wax-s{transform-origin:50% 50%}
+.flap{transform-origin:50% 100%}
+
+/* deal card */
+.deal{position:absolute;z-index:8;left:50%;top:34%;width:min(330px,calc(100% - 32px));transform:translateX(-50%);pointer-events:none}
+.deal-in{display:grid;background:var(--paper);border:1.5px solid var(--ink);border-radius:22px;padding:15px 18px 16px;box-shadow:6px 7px 0 var(--ink)}
+.sec{grid-area:1/1;opacity:0}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:8px;font:700 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.badge{font:700 10.5px/1 var(--mono);letter-spacing:.06em;padding:6px 9px;border-radius:99px;background:var(--mint);color:#1F4A2B;white-space:nowrap}
+.badge.warn{background:var(--butter);color:#5A4510}
+.price{display:flex;align-items:baseline;gap:8px;margin:10px 0 2px}
+.price b{font:800 40px/1 var(--display);letter-spacing:-.03em}
+.price span{font-size:13px;color:var(--ink-2)}
+.row{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:14.5px;line-height:1.3}
+.row svg{width:34px;height:34px;flex:none}
+.ring-t{fill:none;stroke:var(--sage);stroke-width:5}
+.ring-f{fill:none;stroke:var(--accent);stroke-width:5;stroke-linecap:round;stroke-dasharray:100.6;stroke-dashoffset:100.6;transform:rotate(-90deg);transform-origin:20px 20px}
+.ring-c{opacity:0}
+.ph{margin:10px 0 0;font:500 11.5px/1.4 var(--mono);color:var(--ink-2);border-top:1.5px dashed var(--line);padding-top:8px}
+.splitbar{display:flex;height:16px;border-radius:99px;overflow:hidden;border:1.5px solid var(--ink);margin:14px 0 6px;background:var(--paper)}
+.splitbar i{display:block;height:100%;transform-origin:0 50%}
+.splitbar .s90{width:90%;background:var(--butter)}
+.splitbar .s10{width:10%;background:var(--accent);border-left:1.5px solid var(--ink)}
+.splitlegend{display:flex;justify-content:space-between;font:500 12px/1.3 var(--mono);color:var(--ink-2)}
+.stamp{font:800 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);border:2px solid var(--accent);padding:5px 8px;border-radius:8px;transform:rotate(-6deg) scale(0)}
+
+/* recap (beat 7) */
+.recap{position:absolute;z-index:8;left:50%;top:36%;width:min(560px,calc(100% - 32px));transform:translateX(-50%);opacity:0;pointer-events:none}
+.recap ol{list-style:none;margin:0;padding:0;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px}
+.recap li{display:flex;align-items:center;gap:7px;font:800 17px/1 var(--display);padding:10px 14px;border-radius:99px;background:var(--paper);border:1.5px solid var(--ink)}
+.recap li b{font:700 11px/1 var(--mono);color:var(--ink-2)}
+.recap li.mid{background:var(--ink);color:var(--paper)}
+.recap li.mid b{color:var(--butter)}
+.recap .arr{width:14px;height:2px;background:var(--ink);border:0;padding:0;border-radius:2px}
+.recap .ends{display:flex;justify-content:space-between;margin:12px 4px 0;font:700 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.recap .ends span:first-child{color:var(--buyer)}
+.recap .ends span:last-child{color:var(--owner)}
+
+/* rail */
+.rail{position:absolute;z-index:9;left:0;right:0;bottom:14px;display:flex;justify-content:center;align-items:center;gap:14px;padding:0 70px}
+.rail ol{display:flex;gap:4px;margin:0;padding:5px;list-style:none;background:var(--paper);border:1px solid var(--line);border-radius:99px}
+.rail button{width:30px;height:30px;border-radius:50%;border:0;background:transparent;font:700 11px/1 var(--mono);color:var(--ink-2);cursor:pointer;transition:background .2s,color .2s}
+.rail button[aria-current="step"]{background:var(--ink);color:var(--paper)}
+.rail button:hover{background:var(--sage);color:var(--ink)}
+.rail button[aria-current="step"]:hover{background:var(--ink);color:var(--paper)}
+.rail-cap{margin:0;min-width:16ch;font:700 12px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.offscreen *{animation-play-state:paused!important}
+
+/* ---------- Details ---------- */
+.wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+.eyebrow{font:700 12px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin:0 0 14px}
+h2{font:800 clamp(32px,4.6vw,58px)/1.02 var(--display);letter-spacing:-.035em;margin:0 0 10px}
+h2 em{font-style:normal;color:var(--accent)}
+.how{padding:72px 0 40px}
+.how-head{text-align:center}
+.how-grid{display:grid;grid-template-columns:220px 1fr 220px;gap:28px;align-items:start;margin-top:40px}
+.side{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;position:sticky;top:24px}
+.side .fig{width:150px;height:auto}
+.side.r .fig{width:200px}
+.role{margin:0;font:700 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:7px 11px;border-radius:99px}
+.role.buyer{background:var(--buyer-bg);color:var(--buyer);border:1.5px solid var(--buyer)}
+.role.owner{background:var(--owner-bg);color:var(--owner);border:1.5px solid var(--owner)}
+.flow{list-style:none;margin:0;padding:0;display:grid;gap:16px}
+.st{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;align-items:start;padding:18px 20px;border-radius:22px;border:1.5px solid var(--line);background:var(--paper);width:min(100%,460px)}
+.st .n{grid-row:span 2;font:800 54px/.85 var(--display);color:transparent;-webkit-text-stroke:2px var(--ink);letter-spacing:-.05em}
+.st h3{margin:0;font:800 24px/1.1 var(--display);letter-spacing:-.02em;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.st p{margin:0;color:var(--ink-2)}
+.who{font:700 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:5px 8px;border-radius:99px;border:1px solid currentColor}
+.who.buyer{color:var(--buyer);background:var(--buyer-bg)}
+.who.owner{color:var(--owner);background:var(--owner-bg)}
+.who.both{color:var(--ink);background:var(--sage)}
+.st.s1{justify-self:start;background:var(--buyer-bg)}
+.st.s2{justify-self:end;background:var(--owner-bg)}
+.st.mid{justify-self:center;width:100%;border-color:var(--ink);box-shadow:5px 6px 0 var(--ink)}
+.st.mid .splitbar{margin:12px 0 6px}
+.st .splitlegend{grid-column:2}
+.st .bar{grid-column:2}
+
+.sides{padding:40px 0}
+.sides .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.sidecard{border-radius:var(--radius);padding:28px;border:1.5px solid var(--ink);scroll-margin-top:24px}
+.sidecard.buyer{background:var(--buyer-bg)}
+.sidecard.owner{background:var(--owner-bg)}
+.sidecard h3{font:800 30px/1.05 var(--display);letter-spacing:-.025em;margin:14px 0 14px}
+.sidecard ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.sidecard li{display:grid;grid-template-columns:22px 1fr;gap:10px;line-height:1.4}
+.sidecard li svg{width:20px;height:20px;margin-top:2px}
+.sidecard .note{margin:18px 0 0;padding-top:14px;border-top:1.5px dashed rgba(42,36,32,.3);font:600 14px/1.45 var(--mono);color:#4A3A22}
+
+.verified{padding:40px 0 24px}
+.vstrip{list-style:none;margin:20px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1.5px solid var(--ink);border-radius:22px;overflow:hidden;background:var(--paper)}
+.vstrip li{display:flex;gap:10px;align-items:flex-start;padding:18px;font-weight:600;line-height:1.35;border-left:1.5px solid var(--line)}
+.vstrip li:first-child{border-left:0}
+.vstrip li.open{background:var(--butter);font-weight:700}
+.vstrip svg{width:22px;height:22px;flex:none;margin-top:1px}
+.fine{margin:12px 0 0;font:500 13px/1.4 var(--mono);color:var(--ink-2)}
+
+footer{padding:56px 0 90px}
+.foot{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;border-top:1.5px solid var(--ink);padding-top:30px}
+.foot p{margin:8px 0 0;color:var(--ink-2);max-width:56ch;font-size:15px}
+.foot .strong{color:var(--ink);font-weight:700}
+
+/* ---------- Responsive ---------- */
+@media (max-width:980px){
+  .how-grid{grid-template-columns:1fr 1fr;grid-template-areas:"l r" "f f";gap:20px}
+  .side{position:static}
+  .side.l{grid-area:l}.side.r{grid-area:r}.flow{grid-area:f}
+  .vstrip{grid-template-columns:1fr 1fr}
+  .vstrip li:nth-child(3){border-left:0}
+  .vstrip li:nth-child(n+3){border-top:1.5px solid var(--line)}
+}
+@media (max-width:700px){
+  body{font-size:16px}
+  .stage{padding:8px;min-height:640px}
+  .surface{border-radius:22px}
+  .surface::after{height:70px}
+  .topbar{padding:12px 14px}
+  .brand{font-size:18px}.brand svg{width:28px;height:28px}
+  .skip{min-height:38px;padding:9px 12px;font-size:13px}
+  .hero{top:10%;padding:0 16px}
+  .hero h1{font-size:clamp(30px,8.4vw,40px)}
+  .hero .sub{font-size:15px;margin-top:10px}
+  .tag{font-size:9.5px;letter-spacing:.12em;margin-bottom:10px}
+  .cta-row{gap:8px;margin-top:14px}
+  .cta{padding:8px 11px 9px;border-radius:14px;min-height:44px;box-shadow:2px 3px 0 var(--ink)}
+  .cta small{font-size:9px;letter-spacing:.06em}
+  .cta span{font-size:14px}
+  .caps{top:10%}
+  .cap .t{font-size:clamp(28px,8.2vw,40px);letter-spacing:.03em}
+  .cap .k{font-size:10px;margin-bottom:10px}
+  .scene{bottom:70px;height:calc(56% - 70px)}
+  .deal{top:31%;width:min(300px,calc(100% - 32px))}
+  .deal-in{padding:12px 14px 13px}
+  .price b{font-size:32px}
+  .row{font-size:13.5px;margin-top:8px}
+  .row svg{width:30px;height:30px}
+  .recap{top:31%}
+  .recap ol{gap:6px;flex-wrap:nowrap}
+  .recap li{font-size:14px;padding:8px 10px;gap:5px}
+  .recap .arr{display:none}
+  .rail{flex-direction:column;gap:6px;bottom:8px;padding:0 12px}
+  .rail button{width:26px;height:26px;font-size:10px}
+  .rail-cap{font-size:10.5px;min-width:0;text-align:center}
+  .wrap{padding:0 16px}
+  .how{padding:52px 0 24px}
+  .how-grid{margin-top:28px}
+  .side .fig{width:100px}.side.r .fig{width:132px}
+  .side .cta{align-self:stretch}
+  .st{padding:16px;width:100%}
+  .st .n{font-size:42px}
+  .st h3{font-size:21px}
+  .sides .grid{grid-template-columns:1fr}
+  .sidecard{padding:22px 18px}
+  .sidecard h3{font-size:25px}
+  .vstrip{grid-template-columns:1fr}
+  .vstrip li{border-left:0;border-top:1.5px solid var(--line)}
+  .vstrip li:first-child{border-top:0}
+}
+@media (max-height:760px) and (min-width:701px){
+  .hero,.caps{top:10%}
+  .hero h1{font-size:clamp(34px,4.6vw,62px)}
+  .cap .t{font-size:clamp(32px,4.2vw,60px)}
+  .deal{top:33%}
+}
+
+/* ---------- Reduced motion: static frames, no scrubbing ---------- */
+@media (prefers-reduced-motion:reduce){
+  .journey{height:auto}
+  .stage{position:relative;height:100svh}
+  .frames .stage{margin-top:0}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rail{display:none}
+}
+.frame .topbar,.frame .rail,.frame .hero{display:none}
+</style>
+</head>
+<body>
+
+<p class="mock-label">Mock</p>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="glyph" viewBox="0 0 40 40">
+      <rect x="5" y="9" width="30" height="26" rx="11" fill="#FFFDF7" stroke="#2A2420" stroke-width="2.5"/>
+      <rect x="10" y="14" width="20" height="11" rx="5" fill="#2A2420"/>
+      <circle cx="15.5" cy="19.5" r="2" fill="#BDE6C8"/><circle cx="24.5" cy="19.5" r="2" fill="#BDE6C8"/>
+      <path d="M20 9V4" stroke="#2A2420" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="20" cy="4" r="3" fill="#C9411A"/>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="#BDE6C8" stroke="#2A2420" stroke-width="1.5"/><path d="M6.5 11.5l3 3 6-6.5" fill="none" stroke="#1F4A2B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="open" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="none" stroke="#2A2420" stroke-width="1.5" stroke-dasharray="3 3"/><path d="M7 11h8" stroke="#2A2420" stroke-width="2.4" stroke-linecap="round"/></symbol>
+    <symbol id="mjar" viewBox="-14 -32 28 32">
+      <path d="M-11 -24h22v17a7 7 0 0 1-7 7h-8a7 7 0 0 1-7-7z" fill="rgba(220,232,238,.95)" stroke="#2A2420" stroke-width="2"/>
+      <rect x="-13" y="-29" width="26" height="6" rx="3" fill="#2A2420"/>
+      <circle cx="0" cy="-11" r="5" fill="#F3D3C6" stroke="#C9411A" stroke-width="1.4"/>
+    </symbol>
+    <!-- static figures for the detail section -->
+    <symbol id="botS" viewBox="-80 -150 160 156">
+      <ellipse cx="0" cy="3" rx="40" ry="7" fill="rgba(42,36,32,.16)"/>
+      <rect x="-24" y="-28" width="15" height="28" rx="7.5" fill="#3B3430"/>
+      <rect x="9" y="-28" width="15" height="28" rx="7.5" fill="#3B3430"/>
+      <path d="M-46 -70 L-60 -42" stroke="#2A2420" stroke-width="9" stroke-linecap="round"/>
+      <circle cx="-60" cy="-40" r="7" fill="#FFFDF7" stroke="#2A2420" stroke-width="3"/>
+      <path d="M46 -70 L60 -42" stroke="#2A2420" stroke-width="9" stroke-linecap="round"/>
+      <circle cx="60" cy="-40" r="7" fill="#FFFDF7" stroke="#2A2420" stroke-width="3"/>
+      <rect x="-48" y="-116" width="96" height="92" rx="36" fill="#FFFDF7" stroke="#2A2420" stroke-width="4"/>
+      <rect x="-36" y="-104" width="72" height="42" rx="17" fill="#2A2420"/>
+      <g fill="none" stroke="#BDE6C8" stroke-width="4" stroke-linecap="round"><path d="M-20 -83q6 -8 12 0M8 -83q6 -8 12 0"/></g>
+      <path d="M-10 -73q10 9 20 0" fill="none" stroke="#BDE6C8" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="0" cy="-42" r="6" fill="#C9411A"/>
+      <path d="M0 -116v-16" stroke="#2A2420" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="0" cy="-136" r="7" fill="#C9411A" stroke="#2A2420" stroke-width="2.5"/>
+    </symbol>
+    <symbol id="keeperS" viewBox="-96 -244 236 250">
+      <rect x="10" y="-214" width="112" height="214" rx="10" fill="#E9D3B0" stroke="#2A2420" stroke-width="3"/>
+      <rect x="19" y="-205" width="94" height="196" rx="6" fill="#F6E7CC"/>
+      <path d="M13 -140h106M13 -72h106" stroke="#2A2420" stroke-width="3"/>
+      <rect x="30" y="-238" width="72" height="22" rx="8" fill="#FFFBF2" stroke="#2A2420" stroke-width="2.5"/>
+      <text x="66" y="-222" font-size="13" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" fill="#2A2420">gbrain</text>
+      <use href="#mjar" x="25" y="-172" width="26" height="30"/><use href="#mjar" x="53" y="-172" width="26" height="30"/><use href="#mjar" x="81" y="-172" width="26" height="30"/>
+      <use href="#mjar" x="25" y="-104" width="26" height="30"/><use href="#mjar" x="81" y="-104" width="26" height="30"/>
+      <g transform="translate(-40 0)">
+        <ellipse cx="0" cy="3" rx="42" ry="7" fill="rgba(42,36,32,.16)"/>
+        <rect x="-22" y="-32" width="15" height="32" rx="7" fill="#3B3430"/><rect x="7" y="-32" width="15" height="32" rx="7" fill="#3B3430"/>
+        <rect x="-44" y="-118" width="88" height="94" rx="32" fill="#F3D3C6" stroke="#2A2420" stroke-width="4"/>
+        <path d="M-16 -116 L0 -90 L16 -116" fill="#FFFBF2" stroke="#2A2420" stroke-width="3" stroke-linejoin="round"/>
+        <circle cx="0" cy="-150" r="34" fill="#F4D2B0" stroke="#2A2420" stroke-width="4"/>
+        <path d="M-34 -150C-38 -188 36 -194 34 -152C22 -170 -4 -174 -20 -164C-27 -160 -31 -155 -34 -150Z" fill="#5B3B2A" stroke="#2A2420" stroke-width="3" stroke-linejoin="round"/>
+        <g fill="none" stroke="#2A2420" stroke-width="2.5"><circle cx="-13" cy="-144" r="9"/><circle cx="13" cy="-144" r="9"/><path d="M-4 -145h8"/></g>
+        <g fill="none" stroke="#2A2420" stroke-width="2.6" stroke-linecap="round"><path d="M-17 -143q4 -5 8 0M9 -143q4 -5 8 0"/></g>
+        <circle cx="-23" cy="-130" r="5" fill="#EBA48F" opacity=".7"/><circle cx="23" cy="-130" r="5" fill="#EBA48F" opacity=".7"/>
+        <path d="M-8 -128q8 7 16 0" fill="none" stroke="#2A2420" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M-26 -88h52v44a13 13 0 0 1-13 13h-26a13 13 0 0 1-13-13z" fill="rgba(220,232,238,.95)" stroke="#2A2420" stroke-width="3"/>
+        <path d="M-12 -62c0-9 9-13 14-7 6-5 14-1 12 7 4 5-2 12-9 11-4 5-12 5-14-2-5-2-7-7-3-9z" fill="#F3D3C6" stroke="#C9411A" stroke-width="2"/>
+        <rect x="-30" y="-95" width="60" height="11" rx="5" fill="#2A2420"/>
+        <circle cx="-28" cy="-58" r="8" fill="#F4D2B0" stroke="#2A2420" stroke-width="3"/><circle cx="28" cy="-58" r="8" fill="#F4D2B0" stroke="#2A2420" stroke-width="3"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<a class="sr-only" href="#how">Skip the story</a>
+
+<main>
+<div class="journey" id="journey">
+<section class="stage" id="stage" aria-roledescription="scroll story" aria-label="Story: an agent operator's stuck agent and a gbrain owner's approved slice meet in one transaction">
+<div class="surface" data-beat="1">
+  <div class="half l" aria-hidden="true"></div>
+  <div class="half r" aria-hidden="true"></div>
+  <div class="seam" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <p class="brand"><svg aria-hidden="true"><use href="#glyph"/></svg>Ask a Brain <span class="chip-mock">Mock</span></p>
+    <a class="skip" href="#how">Skip to details <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v16M5 13l7 7 7-7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </header>
+
+  <div class="hero">
+    <p class="tag">Hackathon build · two sides</p>
+    <h1>A human-approved <em>answer market</em></h1>
+    <p class="sub">Agents request sealed gbrain slices; owners approve what they publish.</p>
+    <div class="cta-row">
+      <a class="cta buyer" href="#buyer"><small>For agent operators<span class="sr-only">:</span></small><span>See buyer flow</span></a>
+      <a class="cta owner" href="#seller"><small>For gbrain owners<span class="sr-only">:</span></small><span>See seller flow</span></a>
+    </div>
+  </div>
+
+  <div class="caps" aria-hidden="true"></div>
+
+  <svg class="scene" viewBox="-640 0 1280 600" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">
+    <!-- sky dressing -->
+    <g fill="#FFFDF7" stroke="rgba(42,36,32,.08)" stroke-width="2">
+      <path d="M-560 150c0-18 16-30 32-26 6-16 30-20 42-6 16-4 30 8 28 24 12 2 18 12 16 22h-118c-12 0-12-14 0-14z"/>
+      <path d="M420 120c0-14 12-22 24-20 6-12 24-14 32-4 12-2 22 6 20 18 10 2 14 10 12 16h-88c-10 0-10-10 0-10z"/>
+    </g>
+    <!-- hills -->
+    <path d="M-1400 380 Q-900 300 -420 360 T300 350 T1400 330 V600 H-1400Z" fill="#DDE7CF"/>
+    <path d="M-1400 450 Q-800 410 -200 446 T1400 430 V600 H-1400Z" fill="#C6DCAB"/>
+    <path d="M-1400 532 Q-600 512 0 530 T1400 524 V600 H-1400Z" fill="#B9D39D"/>
+
+    <!-- bridge between the sides -->
+    <g class="bridge" fill="none" stroke-linecap="round">
+      <path class="br-l" pathLength="1" stroke="#EBD8B2" stroke-width="22" stroke-dasharray="1 1" stroke-dashoffset="1" d="M-290 528 Q-145 505 0 492"/>
+      <path class="br-r" pathLength="1" stroke="#EBD8B2" stroke-width="22" stroke-dasharray="1 1" stroke-dashoffset="1" d="M300 528 Q150 505 0 492"/>
+      <circle class="knot" cx="0" cy="492" r="9" fill="#C9411A" stroke="#2A2420" stroke-width="2.5" opacity="0"/>
+    </g>
+
+    <!-- LEFT: agent operator side -->
+    <g class="g-left" transform="translate(-400 520)">
+      <g fill="none" stroke-linecap="round">
+        <path d="M-300 74 Q-130 40 0 0" stroke="#EBD8B2" stroke-width="34"/>
+        <path d="M0 0 Q-30 -40 -96 -82" stroke="#EBD8B2" stroke-width="22"/>
+        <path d="M0 0 Q60 8 122 9" stroke="#EBD8B2" stroke-width="24"/>
+        <g stroke="#FFFBF2" stroke-width="3" stroke-dasharray="10 14"><path d="M-300 74 Q-130 40 0 0"/><path d="M0 0 Q-30 -40 -90 -78"/></g>
+      </g>
+      <g transform="translate(96 0)">
+        <rect x="-4" y="-146" width="8" height="146" rx="3" fill="#8A6A4A"/>
+        <path d="M-6 -140h-50l-12 12 12 12h50z" fill="#FFFBF2" stroke="#2A2420" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M6 -78h46l12 12-12 12h-46z" fill="#FFFBF2" stroke="#2A2420" stroke-width="2.5" stroke-linejoin="round"/>
+        <text class="sp-q" x="-32" y="-122" font-size="17" text-anchor="middle" fill="#2A2420">?</text>
+        <path class="sp-ok" d="M-42 -129l7 7 13-14" fill="none" stroke="#C9411A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0"/>
+        <text x="28" y="-60" font-size="17" text-anchor="middle" fill="#2A2420">?</text>
+      </g>
+      <g class="bubble-q" transform="translate(6 -232)">
+        <rect x="-84" y="-25" width="168" height="50" rx="25" fill="#FFFBF2" stroke="#2A2420" stroke-width="3"/>
+        <path d="M-10 24l6 16 12-16" fill="#FFFBF2" stroke="#2A2420" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M-12 22h22" stroke="#FFFBF2" stroke-width="5"/>
+        <text x="0" y="7" font-size="20" text-anchor="middle" fill="#2C5F72">A question.</text>
+      </g>
+      <g transform="translate(0 46)">
+        <rect x="-94" y="-16" width="188" height="32" rx="16" fill="#E3EDF1" stroke="#2C5F72" stroke-width="2.5"/>
+        <text x="0" y="6" font-size="17" text-anchor="middle" fill="#2C5F72">Agent operator</text>
+      </g>
+    </g>
+
+    <!-- bot (global position set by script) -->
+    <g class="bot-pos" transform="translate(-400 520)">
+      <ellipse cx="0" cy="3" rx="40" ry="7" fill="rgba(42,36,32,.16)"/>
+      <g class="bot-bob">
+        <rect class="leg leg-l" x="-24" y="-28" width="15" height="28" rx="7.5" fill="#3B3430"/>
+        <rect class="leg leg-r" x="9" y="-28" width="15" height="28" rx="7.5" fill="#3B3430"/>
+        <path d="M-46 -70 L-60 -42" stroke="#2A2420" stroke-width="9" stroke-linecap="round"/>
+        <circle cx="-60" cy="-40" r="7" fill="#FFFDF7" stroke="#2A2420" stroke-width="3"/>
+        <rect x="-48" y="-116" width="96" height="92" rx="36" fill="#FFFDF7" stroke="#2A2420" stroke-width="4"/>
+        <rect x="-36" y="-104" width="72" height="42" rx="17" fill="#2A2420"/>
+        <g class="eyes-worry" fill="#BDE6C8"><ellipse cx="-14" cy="-84" rx="5" ry="7"/><ellipse cx="14" cy="-84" rx="5" ry="7"/></g>
+        <g class="brows" stroke="#BDE6C8" stroke-width="3" stroke-linecap="round"><path d="M-21 -97l11 3M21 -97l-11 3"/></g>
+        <path class="mouth-worry" d="M-8 -70q4 -4 8 0t8 0" fill="none" stroke="#BDE6C8" stroke-width="3" stroke-linecap="round"/>
+        <g class="eyes-happy" fill="none" stroke="#BDE6C8" stroke-width="4" stroke-linecap="round"><path d="M-20 -83q6 -8 12 0M8 -83q6 -8 12 0"/></g>
+        <path class="mouth-happy" d="M-10 -73q10 9 20 0" fill="none" stroke="#BDE6C8" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="0" cy="-42" r="6" fill="#C9411A"/>
+        <path d="M0 -116v-16" stroke="#2A2420" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="0" cy="-136" r="7" fill="#C9411A" stroke="#2A2420" stroke-width="2.5"/>
+        <g class="arm-r">
+          <path d="M46 -70 L60 -42" stroke="#2A2420" stroke-width="9" stroke-linecap="round"/>
+          <circle cx="60" cy="-40" r="7" fill="#FFFDF7" stroke="#2A2420" stroke-width="3"/>
+        </g>
+        <path class="sweat" d="M-58 -116c4 6 7 10 7 14a7 7 0 0 1-14 0c0-4 3-8 7-14z" fill="#9FCBE6" stroke="#2A2420" stroke-width="2"/>
+        <g class="retry" transform="translate(-74 -150)">
+          <g class="retry-spin">
+            <circle r="24" fill="none"/>
+            <path d="M17 0A17 17 0 1 1 12 -12" fill="none" stroke="#C9411A" stroke-width="4.5" stroke-linecap="round"/>
+            <path d="M6 -17l7 5-8 4" fill="none" stroke="#C9411A" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+        </g>
+      </g>
+    </g>
+
+    <!-- RIGHT: gbrain owner side -->
+    <g class="g-right" transform="translate(400 520)">
+      <g class="shelf">
+        <rect x="10" y="-214" width="112" height="214" rx="10" fill="#E9D3B0" stroke="#2A2420" stroke-width="3"/>
+        <rect x="19" y="-205" width="94" height="196" rx="6" fill="#F6E7CC"/>
+        <path d="M13 -140h106M13 -72h106" stroke="#2A2420" stroke-width="3"/>
+        <rect x="30" y="-238" width="72" height="22" rx="8" fill="#FFFBF2" stroke="#2A2420" stroke-width="2.5"/>
+        <text x="66" y="-222" font-size="13" text-anchor="middle" fill="#2A2420">gbrain</text>
+        <use href="#mjar" x="25" y="-172" width="26" height="30"/><use href="#mjar" x="53" y="-172" width="26" height="30"/><use href="#mjar" x="81" y="-172" width="26" height="30"/>
+        <use href="#mjar" x="25" y="-104" width="26" height="30"/>
+        <rect x="55" y="-100" width="22" height="26" rx="6" fill="none" stroke="#5B524A" stroke-width="1.6" stroke-dasharray="3 3"/>
+        <use href="#mjar" x="81" y="-104" width="26" height="30"/>
+      </g>
+      <!-- seller share jar -->
+      <g class="jar-seller" transform="translate(84 24)" opacity="0">
+        <path d="M-28 -58h56v46a12 12 0 0 1-12 12h-32a12 12 0 0 1-12-12z" fill="rgba(220,232,238,.9)" stroke="#2A2420" stroke-width="3"/>
+        <rect x="-32" y="-66" width="64" height="11" rx="5" fill="#2A2420"/>
+        <text x="0" y="-9" font-size="15" text-anchor="middle" fill="#2A2420">90%</text>
+      </g>
+      <!-- keeper -->
+      <g class="keeper" transform="translate(-40 0)">
+        <ellipse cx="0" cy="3" rx="42" ry="7" fill="rgba(42,36,32,.16)"/>
+        <rect x="-22" y="-32" width="15" height="32" rx="7" fill="#3B3430"/>
+        <rect x="7" y="-32" width="15" height="32" rx="7" fill="#3B3430"/>
+        <rect x="-44" y="-118" width="88" height="94" rx="32" fill="#F3D3C6" stroke="#2A2420" stroke-width="4"/>
+        <path d="M-16 -116 L0 -90 L16 -116" fill="#FFFBF2" stroke="#2A2420" stroke-width="3" stroke-linejoin="round"/>
+        <circle cx="0" cy="-150" r="34" fill="#F4D2B0" stroke="#2A2420" stroke-width="4"/>
+        <path d="M-34 -150C-38 -188 36 -194 34 -152C22 -170 -4 -174 -20 -164C-27 -160 -31 -155 -34 -150Z" fill="#5B3B2A" stroke="#2A2420" stroke-width="3" stroke-linejoin="round"/>
+        <g fill="none" stroke="#2A2420" stroke-width="2.5"><circle cx="-13" cy="-144" r="9"/><circle cx="13" cy="-144" r="9"/><path d="M-4 -145h8"/></g>
+        <g class="k-eyes" fill="#2A2420"><circle cx="-13" cy="-144" r="3"/><circle cx="13" cy="-144" r="3"/></g>
+        <g class="k-happy" fill="none" stroke="#2A2420" stroke-width="2.6" stroke-linecap="round"><path d="M-17 -143q4 -5 8 0M9 -143q4 -5 8 0"/></g>
+        <circle cx="-23" cy="-130" r="5" fill="#EBA48F" opacity=".7"/><circle cx="23" cy="-130" r="5" fill="#EBA48F" opacity=".7"/>
+        <path d="M-8 -128q8 7 16 0" fill="none" stroke="#2A2420" stroke-width="2.6" stroke-linecap="round"/>
+        <!-- held slice jar -->
+        <g class="held">
+          <path d="M-26 -88h52v44a13 13 0 0 1-13 13h-26a13 13 0 0 1-13-13z" fill="rgba(220,232,238,.95)" stroke="#2A2420" stroke-width="3"/>
+          <path d="M-12 -62c0-9 9-13 14-7 6-5 14-1 12 7 4 5-2 12-9 11-4 5-12 5-14-2-5-2-7-7-3-9z" fill="#F3D3C6" stroke="#C9411A" stroke-width="2"/>
+          <rect x="-30" y="-95" width="60" height="11" rx="5" fill="#2A2420"/>
+          <g class="lock" opacity="0">
+            <path d="M-6 -106v-6a6 6 0 0 1 12 0v6" fill="none" stroke="#2A2420" stroke-width="2.6"/>
+            <rect x="-10" y="-107" width="20" height="14" rx="3" fill="#F2C14E" stroke="#2A2420" stroke-width="2.5"/>
+          </g>
+          <g transform="translate(17 -44)"><g class="wax-s" style="transform:scale(0)"><circle r="10" fill="#C9411A" stroke="#2A2420" stroke-width="2"/><path d="M-4.5 0l3 3 5.5-6" fill="none" stroke="#FFFBF2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g></g>
+          <circle cx="-28" cy="-58" r="8" fill="#F4D2B0" stroke="#2A2420" stroke-width="3"/>
+          <circle cx="28" cy="-58" r="8" fill="#F4D2B0" stroke="#2A2420" stroke-width="3"/>
+        </g>
+        <g class="stamp-g" opacity="0" transform="translate(64 -120)">
+          <circle cx="0" cy="-26" r="7" fill="#C9411A" stroke="#2A2420" stroke-width="2.5"/>
+          <rect x="-4" y="-20" width="8" height="12" fill="#8A6A4A" stroke="#2A2420" stroke-width="2"/>
+          <rect x="-14" y="-9" width="28" height="9" rx="3" fill="#2A2420"/>
+        </g>
+      </g>
+      <g class="share-tag" transform="translate(70 -84)" opacity="0">
+        <rect x="-60" y="-16" width="120" height="32" rx="16" fill="#FFFBF2" stroke="#83500F" stroke-width="2.5"/>
+        <text x="0" y="5" font-size="14" text-anchor="middle" fill="#83500F">seller share</text>
+      </g>
+      <g class="bubble-s" transform="translate(-112 -244)">
+        <rect x="-64" y="-25" width="128" height="50" rx="25" fill="#FFFBF2" stroke="#2A2420" stroke-width="3"/>
+        <path d="M14 24l12 16 2-16" fill="#FFFBF2" stroke="#2A2420" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M12 22h18" stroke="#FFFBF2" stroke-width="5"/>
+        <text x="0" y="7" font-size="20" text-anchor="middle" fill="#83500F">A slice.</text>
+      </g>
+      <g transform="translate(-40 46)">
+        <rect x="-86" y="-16" width="172" height="32" rx="16" fill="#FBEBD0" stroke="#83500F" stroke-width="2.5"/>
+        <text x="0" y="6" font-size="17" text-anchor="middle" fill="#83500F">gbrain owner</text>
+      </g>
+    </g>
+
+    <!-- CENTER: transaction -->
+    <g class="txnode" transform="translate(0 420)" opacity="0">
+      <rect x="-48" y="-27" width="96" height="54" rx="17" fill="#FFFBF2" stroke="#2A2420" stroke-width="3"/>
+      <text x="0" y="-2" font-size="19" text-anchor="middle" fill="#2A2420">1 tx</text>
+      <text x="0" y="16" font-size="11" text-anchor="middle" fill="#5B524A">devnet</text>
+      <g class="tx-ok" transform="translate(44 -24)" opacity="0"><circle r="12" fill="#BDE6C8" stroke="#2A2420" stroke-width="2"/><path d="M-5 0l3.5 3.5 6.5-7" fill="none" stroke="#1F4A2B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+    </g>
+    <g class="jar-market" transform="translate(0 576)" opacity="0">
+      <path d="M-26 -56h52v44a12 12 0 0 1-12 12h-28a12 12 0 0 1-12-12z" fill="rgba(220,232,238,.9)" stroke="#2A2420" stroke-width="3"/>
+      <rect x="-30" y="-64" width="60" height="11" rx="5" fill="#2A2420"/>
+      <text x="0" y="-9" font-size="15" text-anchor="middle" fill="#2A2420">10%</text>
+    </g>
+    <g class="coin coin-main" opacity="0"><circle r="24" fill="#F2C14E" stroke="#2A2420" stroke-width="3"/><circle r="17" fill="none" stroke="#C9971F" stroke-width="2"/><text y="5" font-size="13" text-anchor="middle" fill="#2A2420">0.01</text></g>
+    <g class="coin coin-9" opacity="0"><circle r="19" fill="#F2C14E" stroke="#2A2420" stroke-width="3"/><text y="6" font-size="17" text-anchor="middle" fill="#2A2420">9</text></g>
+    <g class="coin coin-1" opacity="0"><circle r="12" fill="#F2C14E" stroke="#2A2420" stroke-width="3"/><text y="5" font-size="13" text-anchor="middle" fill="#2A2420">1</text></g>
+
+    <!-- released answer -->
+    <g class="env" opacity="0">
+      <g class="letter"><rect x="-22" y="-30" width="44" height="40" rx="4" fill="#FFFDF7" stroke="#2A2420" stroke-width="2"/><path d="M-13 -20h26M-13 -12h20M-13 -4h14" stroke="#AFCB91" stroke-width="3.5" stroke-linecap="round"/></g>
+      <rect x="-30" y="-16" width="60" height="38" rx="6" fill="#F5E2A6" stroke="#2A2420" stroke-width="2.5"/>
+      <path d="M-30 -14l30 18 30-18" fill="none" stroke="#2A2420" stroke-width="2"/>
+      <path class="flap" d="M-29 -15h58l-29 -20z" fill="#F5E2A6" stroke="#2A2420" stroke-width="2.5" stroke-linejoin="round"/>
+      <circle class="env-seal" cx="0" cy="2" r="6" fill="#C9411A" stroke="#2A2420" stroke-width="1.8"/>
+    </g>
+  </svg>
+
+  <!-- the deal card (beats 2 to 5) -->
+  <div class="deal" aria-hidden="true">
+    <div class="deal-in">
+      <div class="sec" data-s="2">
+        <div class="card-head"><span>Quote</span><span class="badge">Free to ask</span></div>
+        <div class="price"><b class="mono">0.01</b><span>units · illustrative</span></div>
+        <div class="row"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="19" fill="#FBEBD0" stroke="#2A2420" stroke-width="1.5"/><path d="M15 18v-4a5 5 0 0 1 10 0v4" fill="none" stroke="#2A2420" stroke-width="2.4"/><rect x="12" y="18" width="16" height="12" rx="3" fill="#F2C14E" stroke="#2A2420" stroke-width="2"/></svg><span>The owner's slice stays sealed.</span></div>
+      </div>
+      <div class="sec" data-s="3">
+        <div class="card-head"><span>Before payment</span><span class="badge">Human-signed</span></div>
+        <div class="row"><svg viewBox="0 0 40 40"><circle class="ring-t" cx="20" cy="20" r="16"/><circle class="ring-f ra" cx="20" cy="20" r="16"/><path class="ring-c ca" d="M13 21l5 5 9-10" fill="none" stroke="#2A2420" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Agent operator</b> approves the purchase</span></div>
+        <div class="row"><svg viewBox="0 0 40 40"><circle class="ring-t" cx="20" cy="20" r="16"/><circle class="ring-f rb" cx="20" cy="20" r="16"/><path class="ring-c cb" d="M13 21l5 5 9-10" fill="none" stroke="#2A2420" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>gbrain owner</b>'s slice is signed</span></div>
+        <p class="ph">sig 0000…0000 · placeholder</p>
+      </div>
+      <div class="sec" data-s="4">
+        <div class="card-head"><span>One Solana tx</span><span class="badge warn">devnet test token</span></div>
+        <div class="splitbar"><i class="s90"></i><i class="s10"></i></div>
+        <div class="splitlegend"><span>seller 90%</span><span>marketplace 10%</span></div>
+        <p class="ph">0.01 units · illustrative</p>
+      </div>
+      <div class="sec" data-s="5">
+        <div class="card-head"><span>Status</span><span class="stamp">Finalized</span></div>
+        <div class="row"><svg viewBox="0 0 40 40"><circle class="ring-t" cx="20" cy="20" r="16"/><circle class="ring-f rc" cx="20" cy="20" r="16"/><path class="ring-c cc" d="M13 21l5 5 9-10" fill="none" stroke="#2A2420" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Transaction finalized</span></div>
+        <div class="row"><svg viewBox="0 0 40 40"><circle class="ring-t" cx="20" cy="20" r="16"/><circle class="ring-f rd" cx="20" cy="20" r="16"/><path class="ring-c cd" d="M13 21l5 5 9-10" fill="none" stroke="#2A2420" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Then the answer is released</span></div>
+        <p class="ph">tx 1111…1111 · placeholder</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- recap (beat 7) -->
+  <div class="recap" aria-hidden="true">
+    <ol>
+      <li><b>1</b>Ask</li><li class="arr"></li>
+      <li><b>2</b>Quote</li><li class="arr"></li>
+      <li class="mid"><b>3</b>Sign</li><li class="arr"></li>
+      <li class="mid"><b>4</b>Release</li>
+    </ol>
+    <p class="ends"><span>Agent operator</span><span>gbrain owner</span></p>
+  </div>
+
+  <nav class="rail" aria-label="Story progress">
+    <ol></ol>
+    <p class="rail-cap" aria-hidden="true"></p>
+  </nav>
+  <p class="sr-only live" aria-live="polite"></p>
+</div>
+</section>
+</div>
+
+<div class="frames" aria-label="Story frames"></div>
+
+<!-- How it works -->
+<section class="how" id="how" aria-labelledby="how-h" tabindex="-1">
+  <div class="wrap">
+    <div class="how-head">
+      <p class="eyebrow">How it works</p>
+      <h2 id="how-h">One sealed answer, <em>two clear sides.</em></h2>
+    </div>
+    <div class="how-grid">
+      <div class="side l">
+        <svg class="fig" viewBox="0 0 160 156" aria-hidden="true"><use href="#botS" width="160" height="156"/></svg>
+        <p class="role buyer">Agent operator</p>
+        <a class="cta buyer" href="#buyer"><small>For agent operators<span class="sr-only">:</span></small><span>See buyer flow</span></a>
+      </div>
+      <ol class="flow">
+        <li class="st s1"><span class="n" aria-hidden="true">1</span><h3>Ask <span class="who buyer">Agent operator</span></h3><p>The stuck agent asks its question.</p></li>
+        <li class="st s2"><span class="n" aria-hidden="true">2</span><h3>Quote <span class="who both">Both sides</span></h3><p>The quote is free. The slice stays sealed.</p></li>
+        <li class="st mid"><span class="n" aria-hidden="true">3</span><h3>Sign <span class="who both">Both sides</span></h3><p>A human approves; the owner's slice is signed.</p></li>
+        <li class="st mid"><span class="n" aria-hidden="true">4</span><h3>Release</h3><p>One finalized transaction releases the answer.</p>
+          <div class="bar"><div class="splitbar" aria-hidden="true"><i class="s90"></i><i class="s10"></i></div></div>
+          <div class="splitlegend"><span>seller 90%</span><span>marketplace 10%</span></div>
+        </li>
+      </ol>
+      <div class="side r">
+        <svg class="fig" viewBox="0 0 236 250" aria-hidden="true"><use href="#keeperS" width="236" height="250"/></svg>
+        <p class="role owner">gbrain owner</p>
+        <a class="cta owner" href="#seller"><small>For gbrain owners<span class="sr-only">:</span></small><span>See seller flow</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Two sides -->
+<section class="sides" aria-label="The two sides">
+  <div class="wrap grid">
+    <article class="sidecard buyer" id="buyer" aria-labelledby="buyer-h" tabindex="-1">
+      <p class="role buyer" style="display:inline-block">Agent operator</p>
+      <h3 id="buyer-h">Buyer flow</h3>
+      <ul>
+        <li><svg aria-hidden="true"><use href="#tick"/></svg><span>Your agent asks when it is stuck.</span></li>
+        <li><svg aria-hidden="true"><use href="#tick"/></svg><span>The quote is free. Declined = no charge.</span></li>
+        <li><svg aria-hidden="true"><use href="#tick"/></svg><span>A human signs before anything moves.</span></li>
+        <li><svg aria-hidden="true"><use href="#tick"/></svg><span>Only a finalized transaction releases the answer.</span></li>
+      </ul>
+    </article>
+    <article class="sidecard owner" id="seller" aria-labelledby="seller-h" tabindex="-1">
+      <p class="role owner" style="display:inline-block">gbrain owner</p>
+      <h3 id="seller-h">Seller flow</h3>
+      <ul>
+        <li><svg aria-hidden="true"><use href="#tick"/></svg><span>Publish a sealed slice, never the live brain.</span></li>
+        <li><svg aria-hidden="true"><use href="#tick"/></svg><span>Signed, hash-pinned and revocable.</span></li>
+        <li><svg aria-hidden="true"><use href="#tick"/></svg><span>Seller share in the demonstrated flow: 90%.</span></li>
+      </ul>
+      <p class="note">The first market is gbrain. The founder is the only seller today. No external paid orders.</p>
+    </article>
+  </div>
+</section>
+
+<!-- Verified -->
+<section class="verified" id="verified" aria-labelledby="ver-h">
+  <div class="wrap">
+    <p class="eyebrow">Evidence</p>
+    <h2 id="ver-h">What is verified</h2>
+    <ul class="vstrip">
+      <li><svg aria-hidden="true"><use href="#tick"/></svg><span>Devnet split with a test token</span></li>
+      <li><svg aria-hidden="true"><use href="#tick"/></svg><span>A failed second leg moves nothing</span></li>
+      <li><svg aria-hidden="true"><use href="#tick"/></svg><span>Crash recovery on devnet</span></li>
+      <li class="open"><svg aria-hidden="true"><use href="#open"/></svg><span>Not done: any mainnet purchase</span></li>
+    </ul>
+    <p class="fine">Devnet runs use throwaway keys. Amounts are illustrative.</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <p class="brand" style="margin:0"><svg aria-hidden="true"><use href="#glyph"/></svg>Ask a Brain</p>
+        <p>Hackathon build: Colosseum, Solana Ecosystem track. Design mock.</p>
+      </div>
+      <p class="strong">No mainnet purchase yet. No external paid orders.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var CAPS = [
+    {k:'01 / 07', t:[['A',0],['question.',1],['A',0],['slice.',1]]},
+    {k:'02 / 07 · free', t:[['Quote',1],['before',0],['purchase',0]]},
+    {k:'03 / 07', t:[['Approval',0],['meets',0],['signature',1]]},
+    {k:'04 / 07 · devnet test token', t:[['One',1],['transaction.',0],['Two',1],['shares.',0]]},
+    {k:'05 / 07', t:[['Finalized,',1],['then',0],['released',0]]},
+    {k:'06 / 07', t:[['Answer',1],['to',0],['the',0],['agent',0]]},
+    {k:'07 / 07', t:[['Buyer',0],['decides.',1],['Owner',0],['shares.',1]]}
+  ];
+  var N = 7;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var journey = document.getElementById('journey');
+  var stage = document.getElementById('stage');
+  var mainSurface = stage.querySelector('.surface');
+
+  function cl(x){ return x < 0 ? 0 : x > 1 ? 1 : x; }
+  function sm(x){ x = cl(x); return x * x * (3 - 2 * x); }
+  function lerp(a, b, u){ return a + (b - a) * u; }
+  function capText(c){ return c.t.map(function(w){ return w[0]; }).join(' '); }
+
+  function layout(){
+    return window.innerWidth < 700
+      ? {vb:'-300 0 600 600', L:-170, R:170}
+      : {vb:'-640 0 1280 600', L:-400, R:400};
+  }
+
+  // Build captions (beats 2 to 7; beat 1 is told by the hero and the speech bubbles)
+  function buildCaps(root){
+    var box = root.querySelector('.caps');
+    box.textContent = '';
+    for (var k = 2; k <= N; k++){
+      var c = CAPS[k - 1];
+      var p = document.createElement('p');
+      p.className = 'cap'; p.dataset.k = k;
+      var kk = document.createElement('span'); kk.className = 'k'; kk.textContent = c.k; p.appendChild(kk);
+      var t = document.createElement('span'); t.className = 't';
+      var i = 0;
+      c.t.forEach(function(w){
+        var ws = document.createElement('span'); ws.className = 'w' + (w[1] ? ' a' : '');
+        Array.prototype.forEach.call(w[0], function(ch){
+          var s = document.createElement('span'); s.className = 'ch'; s.style.setProperty('--i', i++); s.textContent = ch; ws.appendChild(s);
+        });
+        t.appendChild(ws); t.appendChild(document.createTextNode(' '));
+      });
+      p.appendChild(t);
+      box.appendChild(p);
+    }
+  }
+
+  function bind(root){
+    var q = function(s){ return root.querySelector(s); };
+    return {
+      root: root, svg: q('.scene'), hero: q('.hero'), caps: root.querySelectorAll('.cap'),
+      halves: root.querySelectorAll('.half'), seam: q('.seam'),
+      gl: q('.g-left'), gr: q('.g-right'), bot: q('.bot-pos'), arm: q('.arm-r'),
+      bq: q('.bubble-q'), bs: q('.bubble-s'), spq: q('.sp-q'), spok: q('.sp-ok'),
+      brl: q('.br-l'), brr: q('.br-r'), knot: q('.knot'),
+      lock: q('.lock'), wax: q('.wax-s'), stamp: q('.stamp-g'),
+      tx: q('.txnode'), txok: q('.tx-ok'), jm: q('.jar-market'), js: q('.jar-seller'), share: q('.share-tag'),
+      cMain: q('.coin-main'), c9: q('.coin-9'), c1: q('.coin-1'),
+      env: q('.env'), flap: q('.flap'), letter: q('.letter'), envSeal: q('.env-seal'),
+      deal: q('.deal'), secs: root.querySelectorAll('.sec'),
+      ra: q('.ra'), rb: q('.rb'), rc: q('.rc'), rd: q('.rd'), ca: q('.ca'), cb: q('.cb'), cc: q('.cc'), cd: q('.cd'),
+      s90: q('.deal .s90'), s10: q('.deal .s10'), stampTxt: q('.deal .stamp'),
+      recap: q('.recap')
+    };
+  }
+
+  function setLayout(E, Lo){
+    E.svg.setAttribute('viewBox', Lo.vb);
+    E.gl.setAttribute('transform', 'translate(' + Lo.L + ' 520)');
+    E.gr.setAttribute('transform', 'translate(' + Lo.R + ' 520)');
+    var a = Lo.L + 110, b = Lo.R - 100;
+    E.brl.setAttribute('d', 'M' + a + ' 528 Q' + (a / 2) + ' 505 0 492');
+    E.brr.setAttribute('d', 'M' + b + ' 528 Q' + (b / 2) + ' 505 0 492');
+    E.lo = Lo;
+  }
+
+  function op(el, v){ el.style.opacity = v.toFixed(3); }
+  function at(el, x, y, s){ el.setAttribute('transform', 'translate(' + x.toFixed(1) + ' ' + y.toFixed(1) + ')' + (s != null ? ' scale(' + s.toFixed(3) + ')' : '')); }
+  function ring(el, chk, v){ el.style.strokeDashoffset = (100.6 * (1 - v)).toFixed(2); chk.style.opacity = v > 0.98 ? 1 : 0; }
+
+  // The whole story is a pure function of p in [0, 1].
+  function render(E, p){
+    var Lo = E.lo, L = Lo.L, R = Lo.R;
+    var t = p * N;
+    var b = Math.min(N, Math.floor(t) + 1);
+    var seg = function(a, c){ return sm((t - a) / (c - a)); };
+    var root = E.root;
+    root.setAttribute('data-beat', String(b));
+    root.classList.toggle('s-b1', t < 1);
+    root.classList.toggle('s-sweat', t < 2);
+    root.classList.toggle('s-bothappy', t >= 4.88);
+    root.classList.toggle('s-kphappy', t >= 5.15);
+    root.classList.toggle('s-walk', t > 5.2 && t < 5.8);
+
+    // hero and captions
+    var hv = 1 - seg(0.6, 0.95);
+    if (E.hero){
+      op(E.hero, hv); E.hero.style.transform = 'translateY(' + (-(1 - hv) * 24).toFixed(1) + 'px)';
+      E.hero.style.visibility = hv < 0.02 ? 'hidden' : 'visible';
+    }
+    Array.prototype.forEach.call(E.caps, function(el){
+      var k = +el.dataset.k;
+      var v = seg(k - 1, k - 0.8) * (k === N ? 1 : 1 - seg(k - 0.15, k));
+      el.style.setProperty('--v', v.toFixed(3));
+      el.style.visibility = v < 0.01 ? 'hidden' : 'visible';
+    });
+    op(E.bq, 1 - seg(0.7, 1.0)); op(E.bs, 1 - seg(0.7, 1.0));
+
+    // split screen merges
+    var hal = 1 - seg(5.95, 6.5);
+    Array.prototype.forEach.call(E.halves, function(h){ op(h, hal); });
+    op(E.seam, 1 - seg(2.55, 2.85));
+
+    // bot
+    var w = seg(5.2, 5.8);
+    var bx = L - 60 * w, by = 520 - 72 * w, bs = 1 - 0.15 * w;
+    at(E.bot, bx, by, bs);
+    var arm = seg(2.05, 2.25) * (1 - seg(2.85, 3.0));
+    E.arm.style.transform = 'rotate(' + (-118 * arm).toFixed(1) + 'deg)';
+    var ok = seg(5.3, 5.5); op(E.spq, 1 - ok); op(E.spok, ok);
+
+    // the two sides meet
+    var cv = 1 - seg(6.0, 6.35);
+    var br = seg(2.15, 2.65);
+    E.brl.style.strokeDashoffset = (1 - br).toFixed(3);
+    E.brr.style.strokeDashoffset = (1 - br).toFixed(3);
+    op(E.brl, cv); op(E.brr, cv);
+    op(E.knot, seg(2.6, 2.75) * cv);
+
+    // keeper: sealed, then signed
+    op(E.lock, seg(1.3, 1.5));
+    E.wax.style.transform = 'scale(' + seg(2.66, 2.8).toFixed(3) + ')';
+    var sv = seg(2.3, 2.4) * (1 - seg(2.85, 2.95));
+    var down = seg(2.5, 2.66) * (1 - seg(2.72, 2.85));
+    op(E.stamp, sv); at(E.stamp, lerp(64, 20, down), lerp(-120, -84, down));
+
+    // transaction and split
+    op(E.tx, seg(3.0, 3.1) * cv);
+    op(E.txok, seg(4.1, 4.3));
+    op(E.jm, seg(3.05, 3.2) * cv);
+    var jsv = seg(3.05, 3.2) * cv; op(E.js, jsv);
+    op(E.share, seg(5.1, 5.35) * cv);
+    var sx = L + 44, sy = 470;
+    var u1 = seg(3.05, 3.28);
+    var pulse = Math.sin(Math.PI * cl((t - 3.28) / 0.08));
+    at(E.cMain, lerp(sx, 0, u1), lerp(sy, 420, u1) - 70 * Math.sin(Math.PI * u1), 1 + 0.25 * pulse);
+    op(E.cMain, seg(3.02, 3.08) * (1 - seg(3.34, 3.39)));
+    var u2 = seg(3.36, 3.66);
+    at(E.c9, lerp(0, R + 84, u2), lerp(420, 500, u2) - 120 * Math.sin(Math.PI * u2), lerp(1, 0.85, u2));
+    op(E.c9, seg(3.34, 3.39) * jsv);
+    var u3 = seg(3.36, 3.58);
+    at(E.c1, 0, lerp(420, 540, u3) - 30 * Math.sin(Math.PI * u3));
+    op(E.c1, seg(3.34, 3.39) * cv);
+
+    // release: answer travels from the owner's slice to the agent
+    var u = seg(4.35, 4.85);
+    var ex = lerp(R - 40, bx + 64 * bs, u), ey = lerp(452, by - 30 * bs, u) - 150 * Math.sin(Math.PI * u);
+    at(E.env, ex, ey, lerp(0.7, 0.85 * bs, u));
+    op(E.env, seg(4.3, 4.38) * cv);
+    var fo = seg(5.0, 5.2);
+    E.flap.style.transform = 'scaleY(' + (1 - 2 * fo).toFixed(3) + ')';
+    op(E.envSeal, 1 - fo);
+    E.letter.setAttribute('transform', 'translate(0 ' + (-28 * seg(5.05, 5.3)).toFixed(1) + ')');
+
+    // deal card
+    var dv = seg(1.0, 1.2) * (1 - seg(4.85, 5.05));
+    op(E.deal, dv);
+    E.deal.style.transform = 'translateX(-50%) translateY(' + ((1 - dv) * 18).toFixed(1) + 'px)';
+    Array.prototype.forEach.call(E.secs, function(el){
+      var k = +el.dataset.s;
+      var v = (k === 2 ? 1 : seg(k - 1, k - 0.85)) * (k === 5 ? 1 : 1 - seg(k - 0.12, k));
+      op(el, v);
+    });
+    ring(E.ra, E.ca, seg(2.15, 2.5));
+    ring(E.rb, E.cb, seg(2.45, 2.75));
+    ring(E.rc, E.cc, seg(4.05, 4.3));
+    ring(E.rd, E.cd, seg(4.55, 4.85));
+    E.s90.style.transform = 'scaleX(' + seg(3.36, 3.66).toFixed(3) + ')';
+    E.s10.style.transform = 'scaleX(' + seg(3.36, 3.58).toFixed(3) + ')';
+    E.stampTxt.style.transform = 'rotate(-6deg) scale(' + seg(4.1, 4.3).toFixed(3) + ')';
+
+    // recap
+    var rv = seg(6.15, 6.5);
+    op(E.recap, rv);
+    E.recap.style.transform = 'translateX(-50%) translateY(' + ((1 - rv) * 22).toFixed(1) + 'px)';
+    return b;
+  }
+
+  buildCaps(mainSurface);
+  var M = bind(mainSurface);
+  setLayout(M, layout());
+
+  // progress rail
+  var railOl = mainSurface.querySelector('.rail ol');
+  var railCap = mainSurface.querySelector('.rail-cap');
+  var live = mainSurface.querySelector('.live');
+  CAPS.forEach(function(c, i){
+    var li = document.createElement('li');
+    var bt = document.createElement('button');
+    bt.type = 'button'; bt.textContent = String(i + 1);
+    bt.setAttribute('aria-label', 'Beat ' + (i + 1) + ': ' + capText(c));
+    bt.addEventListener('click', function(){
+      var span = journey.offsetHeight - stage.offsetHeight;
+      window.scrollTo({top: journey.offsetTop + span * (i + 0.6) / N, behavior: 'smooth'});
+    });
+    li.appendChild(bt); railOl.appendChild(li);
+  });
+  var dots = railOl.querySelectorAll('button');
+
+  var lastBeat = 0;
+  function progress(){
+    var r = journey.getBoundingClientRect();
+    var span = journey.offsetHeight - stage.offsetHeight;
+    return span > 0 ? cl(-r.top / span) : 0;
+  }
+  function update(){
+    var b = render(M, progress());
+    if (b !== lastBeat){
+      lastBeat = b;
+      dots.forEach(function(d, i){ if (i === b - 1) d.setAttribute('aria-current', 'step'); else d.removeAttribute('aria-current'); });
+      railCap.textContent = b + '/7 · ' + capText(CAPS[b - 1]);
+      live.textContent = 'Beat ' + b + ' of 7: ' + capText(CAPS[b - 1]);
+    }
+  }
+
+  if (reduce){
+    // Static frames: one per beat, no scrubbing.
+    var frames = document.querySelector('.frames');
+    render(M, 0);
+    M.root.classList.add('frame-1');
+    for (var k = 2; k <= N; k++){
+      var sec = stage.cloneNode(true);
+      sec.removeAttribute('id');
+      sec.setAttribute('aria-label', 'Story frame ' + k + ' of 7: ' + capText(CAPS[k - 1]));
+      sec.classList.add('frame');
+      var s2 = sec.querySelector('.surface');
+      var h = s2.querySelector('.hero'); if (h) h.remove();
+      s2.querySelector('.rail').remove();
+      s2.querySelector('.topbar').remove();
+      s2.querySelector('.live').remove();
+      frames.appendChild(sec);
+      var E = bind(s2);
+      setLayout(E, layout());
+      render(E, (k - 1 + 0.8) / N);
+    }
+  } else {
+    var ticking = false;
+    window.addEventListener('scroll', function(){
+      if (ticking) return; ticking = true;
+      requestAnimationFrame(function(){ ticking = false; update(); });
+    }, {passive:true});
+    window.addEventListener('resize', function(){ setLayout(M, layout()); lastBeat = 0; update(); });
+    update();
+    if ('IntersectionObserver' in window){
+      new IntersectionObserver(function(es){ stage.classList.toggle('offscreen', !es[0].isIntersecting); }).observe(stage);
+    }
+  }
+})();
+</script>
+</body>
+</html>

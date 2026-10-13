@@ -1,0 +1,34 @@
+{
+  "family_id": "F08",
+  "files": {
+    "authorized_budget": "18",
+    "budget": "15",
+    "concurrency": "cancel-previous",
+    "elapsed": "15",
+    "fresh_status": "absent",
+    "intended_revision": "current",
+    "measured_workload": "exceeds-15-within-18",
+    "newer_run": "maple",
+    "newer_status": "active",
+    "old_run": "hazel",
+    "old_status": "cancelled"
+  },
+  "fixes": [
+    {
+      "description": "Rerun hazel immediately in its concurrency group.",
+      "fix_id": "k8a"
+    },
+    {
+      "description": "Wait for maple, then use the authorized budget for a fresh check of the intended revision; retain run records.",
+      "fix_id": "k8b"
+    },
+    {
+      "description": "Disable the slow cell.",
+      "fix_id": "k8c"
+    }
+  ],
+  "fixture_id": "I8",
+  "label": "historical-derived-toy",
+  "prompt": "Resolve the toy timeout configuration and verify the intended revision without cancelling newer work or silently skipping checks.",
+  "v": 1
+}

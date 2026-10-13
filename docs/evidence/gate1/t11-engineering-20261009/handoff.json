@@ -1,0 +1,241 @@
+{
+  "task": "T11",
+  "implementation": "uncommitted worker changes; reviewed upstream code untouched",
+  "files": [
+    {
+      "path": "scripts/broker.ts",
+      "sha256": "4045ba23f6356ed18b0e96d813fd27ca9883e9aa932812306856312d259a4b45"
+    },
+    {
+      "path": "scripts/seller.ts",
+      "sha256": "28ca3853fc6671faafad58b71a7ed4c5bdab3e9a9fa84bca3266bdae292020af"
+    },
+    {
+      "path": "scripts/mcp.ts",
+      "sha256": "dd6f424d6c40848e0f430d87f082be99feb107088ec18d45244003a681f6a78f"
+    },
+    {
+      "path": "scripts/operator.ts",
+      "sha256": "3e22e9b2c7b84026e89cfcd6ceba4d13f670b15a26012264bcdbc6ea5b98c2a9"
+    },
+    {
+      "path": "scripts/integration/evidence.ts",
+      "sha256": "fa065a80ef4101b504e6b49a1cd5d19a6c059aa02340d7b9d57f9edeeacf9913"
+    },
+    {
+      "path": "scripts/integration/freeze.ts",
+      "sha256": "6925e0b7f6d208d18172573a458090c693ca4debe4c8254da64d5f0a97945055"
+    },
+    {
+      "path": "scripts/integration/gate1-human.ts",
+      "sha256": "e5abb7a2aa917a6fcf0874a1e45439283d91ef66c85e6934c320238692fdc27b"
+    },
+    {
+      "path": "scripts/integration/gate1-live.ts",
+      "sha256": "97c3779da34c20812d5bcf6f6a3f6fd61ecf79570d3cc77ce708b48924bad680"
+    },
+    {
+      "path": "scripts/integration/gate1.ts",
+      "sha256": "01a2a4fe456b4cdff8c0d1ef0052001a0652b839d785b60ade18f04f0d99eb1b"
+    },
+    {
+      "path": "scripts/integration/ports.ts",
+      "sha256": "d5b4d732ca40469616a779fe239d3b38001ef64f491e97710c89f44b72c05380"
+    },
+    {
+      "path": "scripts/integration/synthetic.ts",
+      "sha256": "d3e12f1610a4b16b0c26bfb7117eab17bbaa70b2125f0a95da49069a4989e6f9"
+    },
+    {
+      "path": "test/integration/crash-child.ts",
+      "sha256": "5f7efed691649784523458773e3cf198f528e1d52ffee70bbe14cfade2207a91"
+    },
+    {
+      "path": "test/integration/crash.test.ts",
+      "sha256": "2afe5e5ff2459086181873abfd2f60fdd3900403928a735238159d65c103868d"
+    },
+    {
+      "path": "test/integration/gate1.test.ts",
+      "sha256": "5444e2570ecf4ab1625ede44d6c8d7f83442c0b66cee38572758c5631eab1e97"
+    },
+    {
+      "path": "test/integration/harness.ts",
+      "sha256": "07fe04eb71b6ac0f597991e0a4d6b69e960b42b5cd4a64510b135dd33251da79"
+    },
+    {
+      "path": "test/integration/transport.test.ts",
+      "sha256": "1a924ac64f922e1622848e75fcf00922dbcbcb77d863e5b42c88289608152fb6"
+    },
+    {
+      "path": "test/acceptance/payment/live-helpers.test.ts",
+      "sha256": "008dad2f4e0960bff58d63ad40048a0ce9ded41319bd7b54d6b95bd623e39fa7"
+    },
+    {
+      "path": "test/acceptance/payment/proofs.test.ts",
+      "sha256": "2012aa9d7ecf810fdc7935fba5e69d4d96caa223649d084a4dd89f98bdfc3b30"
+    }
+  ],
+  "tests": {
+    "typecheck": {
+      "exit": 0
+    },
+    "boundaries": {
+      "exit": 0,
+      "imports_exports": 373,
+      "roles": [
+        "buyer",
+        "seller-worker"
+      ]
+    },
+    "engineering": {
+      "exit": 0,
+      "tests": 20,
+      "pass": 20,
+      "fail": 0,
+      "skip": 0
+    },
+    "regression": {
+      "exit": 1,
+      "tests": 706,
+      "pass": 703,
+      "fail": 1,
+      "skip": 2,
+      "skipped_tests": [
+        "protected Unix human signer IPC (EPERM)",
+        "Unix gateway IPC (EPERM; lead AAB_REQUIRE_SOCKET_TEST=1)"
+      ]
+    },
+    "existing_listener_standalone": {
+      "exit": 1,
+      "tests": 1,
+      "pass": 0,
+      "fail": 1,
+      "cause": "listen EPERM 127.0.0.1; tracked source unchanged versus HEAD"
+    }
+  },
+  "contract_requests": [
+    {
+      "id": "CR1",
+      "owner": "T3/T1",
+      "file": "src/broker/service.ts",
+      "symbol": "BrokerCore.consult request_nonce",
+      "proposed_change": "Encode the first 16 bytes of the existing per-seller SHA-256 digest as canonical base64url instead of sending its 64-character hex representation.",
+      "reason": "Real T1 quote_request rejects all unadapted broker requests.",
+      "evidence": "test/integration/transport.test.ts: unadapted nonce bad/control",
+      "local_adapter": "scripts/integration/ports.ts adaptRequestNonce"
+    },
+    {
+      "id": "CR2",
+      "owner": "T3/T2",
+      "file": "src/broker/service.ts",
+      "symbol": "BrokerCore.recover verified/reconciled evidence comparison",
+      "proposed_change": "Compare immutable settlement/transaction fields, excluding observation timestamps; persist the first accepted observation time. Alternatively make RpcClient finalized observation metadata stable for identical evidence.",
+      "reason": "Consecutive live RPC reads stamp different observedAt values; full evidence hashes differ, blocking finalization.",
+      "evidence": "test/integration/transport.test.ts: fresh RPC observedAt bad/control",
+      "local_adapter": "scripts/integration/ports.ts stableFinalizedObservation"
+    },
+    {
+      "id": "CR3",
+      "owner": "T4/T3",
+      "file": "src/seller/controller.ts; src/broker/seller-client.ts",
+      "symbol": "SellerController.eligibility and createSellerHttpClient request error mapping",
+      "proposed_change": "Return an authenticated structured revoked Eligibility record or strictly preserve CONTENT_REVOKED through the HTTP client so broker persists a sticky revoked state.",
+      "reason": "After restoring content with newest tombstones, seller suppresses disclosure but HTTP 503 becomes SELLER_UNAVAILABLE; broker records unknown rather than revoked.",
+      "evidence": "test/integration/crash.test.ts: restored seller backup; safely withheld, liability retained",
+      "local_adapter": null
+    },
+    {
+      "id": "CR4",
+      "owner": "T2",
+      "file": "src/chain/index.ts; src/chain/setup.ts",
+      "symbol": "reviewed devnet-only freeze/thaw setup port",
+      "proposed_change": "Export a narrow journaled freeze/thaw operation for the setup-owned marketplace ATA, with durable identical-byte recovery and genesis/account binding.",
+      "reason": "E17 requires a real landed second-leg failure. No reviewed public port exists.",
+      "evidence": "test/acceptance/payment/live-helpers.test.ts: mocked RPC operation bad/control; actual devnet UNVERIFIED",
+      "local_adapter": "scripts/integration/freeze.ts uses pinned Kit plus node:crypto; isolated from runtime MCP"
+    },
+    {
+      "id": "CR5",
+      "owner": "T3/T0",
+      "file": "src/broker/service.ts; src/wire/contracts.ts",
+      "symbol": "BrokerCore.purchase / BrokerPorts before-sign account admission",
+      "proposed_change": "Call existing T2 validatePaymentAccounts before arm/sign through an explicit BrokerPorts function or direct allowed chain import.",
+      "reason": "Static review: core currently never calls validatePaymentAccounts. T11 live signer calls it before sign; normal composeBroker callers still need this guard.",
+      "evidence": "Static review only; upstream missing-guard firing is UNVERIFIED. Existing chain account-validation unit controls are separate.",
+      "local_adapter": "scripts/integration/gate1-live.ts signer.sign performs T2 validatePaymentAccounts"
+    },
+    {
+      "id": "CR6",
+      "owner": "T0",
+      "file": ".gitignore",
+      "symbol": "unanchored evidence/ ignore rule",
+      "proposed_change": "Keep the existing evidence/ ignore and add only !/docs/evidence/, /docs/evidence/*, !/docs/evidence/gate1/ to admit this secret-free evidence subtree; alternatively lead force-adds the reviewed exact run directory.",
+      "reason": "Current rule ignores every T11 evidence file. No .gitignore edit or staging was performed.",
+      "evidence": "git check-ignore -v reports .gitignore:8",
+      "local_adapter": null
+    }
+  ],
+  "judgments_and_deviations": [
+    {
+      "section": "D13, M01, M07-M08",
+      "decision": "Synthetic bundle has explicitly synthetic approval/scanner attestations and no-op output scanner. It tests protocol composition only, never founder rights approval, scanner readiness or production hosting."
+    },
+    {
+      "section": "M04, stack import boundaries",
+      "decision": "Use two explicit integration adapters for CR1/CR2 without editing reviewed owners. Freeze/thaw Kit encoding temporarily lives in a lead-only T11 script, outside chain (CR4); no crypto primitive implementation."
+    },
+    {
+      "section": "M05, M11",
+      "decision": "TestSigner/FakeRpc engineering success never promotes Gate1(a-f). Live runner refuses dirty revision; records full SHA and raw provider-labeled responses. Verdict always keeps paid/mainnet off pending separate founder gates."
+    },
+    {
+      "section": "M06, decision-log E18/E25",
+      "decision": "Recover same DB/WAL, signer journal, request IDs, bytes and tombstones. One live run namespace per T2 setup prevents run-ID budget reset. SIGKILL leaves lock for operator removal only after confirming PID exit."
+    },
+    {
+      "section": "M08",
+      "decision": "Entrypoints expose protected composition functions and exact loopback HTTP listener / unix gateway. No production config loader, worker isolation claim, TLS deployment, tunnel or cloud is provisioned."
+    },
+    {
+      "section": "M09",
+      "decision": "Authoritative T6 receipt/outcome implementation is used; unavailable external importer stays import_pending. No gbrain operation or safe import claim."
+    },
+    {
+      "section": "M05(f), M11",
+      "decision": "Separate founder script wraps the existing ephemeral TTY HumanCliSigner ceremony. It cannot certify live human-signed broker purchase or OS isolation."
+    },
+    {
+      "section": "M03",
+      "decision": "Reuse sealedPayloadMax only as RPC response resource budget; synthetic transaction fee and block heights are fixture observations, not replacement protocol caps."
+    }
+  ],
+  "unverified": [
+    "Actual devnet execution, funding/faucet, current primary/secondary RPC availability/genesis, landed failed second leg and cleanup.",
+    "Actual seller HTTP listener and gateway Unix socket in this sandbox; full regression blocked by listener EPERM and two host-only skips.",
+    "Founder HumanCliSigner TTY ceremony/live broker purchase and runtime/worker OS isolation canaries.",
+    "Production scanner/real content approval, gbrain import, deployment, all Gate1 acceptance on committed release SHA."
+  ],
+  "fixture_hashes": {
+    "synthetic_definition_sha256": "d3e12f1610a4b16b0c26bfb7117eab17bbaa70b2125f0a95da49069a4989e6f9",
+    "public_page_bytes_sha256": "3ed4282937d99fc2dece50bac083add04ce01cb57bf62af9c296bb14f26c0400",
+    "static_signed_vector": "none generated or committed; keys, quote IDs and salts are ephemeral per test"
+  },
+  "evidence_files": [
+    "SHA256SUMS.json",
+    "baseline-listener.log",
+    "engineering.json",
+    "engineering.log",
+    "evidence-secret-scan.log",
+    "handoff.json",
+    "lead-plan.json",
+    "regression.log",
+    "secret-scan.log",
+    "verdict.json"
+  ],
+  "secret_scans": {
+    "workspace": "PASS: custom/built-in bad-clean controls, history and nonignored working tree",
+    "evidence": "PASS: explicit scan of ignored evidence subtree, no leaks after the documented public-test-account omission",
+    "regression_raw_sha256": "81063940bc1475e31142174b3c3378d5c062e8414c03dc14515a55cef17cc344",
+    "published_log_redaction": "Only one existing wire-test diagnostic public seller_token_account was omitted; counts and failure output retained. Raw log is /tmp/aab-t11-final-regression.log."
+  }
+}

@@ -1,0 +1,53 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { mkdirSync, readFileSync, writeFileSync, existsSync, realpathSync } from 'node:fs';
+import { join, resolve } from 'node:path';
+import { spawnSync } from 'node:child_process';
+import { bytesHash, canonicalBytes, payloadHash, strictJson } from '../../src/wire/index.ts';
+import { createReviewPacket } from '../../src/publish/index.ts';
+import { approvalFor, fixture, harness, temporary, worksheet, writeProjection } from './helpers.ts';
+const invoke = (...args: string[]) => spawnSync(process.execPath, ['scripts/publish/operator.ts', ...args], { encoding: 'utf8' });
+test('operator review stages exact public fixture, emits inert hashes, refuses unlisted bytes and overwrite', (t) => {
+  const dir = temporary(t); const projection = join(dir, 'projection'); const input = fixture(); writeProjection(projection, input);
+  const manifest = join(dir, 'manifest.json'); writeFileSync(manifest, canonicalBytes(input.manifest));
+  const rows = join(dir, 'worksheet.json'); writeFileSync(rows, canonicalBytes(worksheet(input)));
+  const stage = join(dir, 'stage'); mkdirSync(stage); const packet = join(dir, 'review.txt');
+  writeFileSync(join(projection, 'unlisted'), 'AAB_PRIVATE_CANARY');
+  let result = invoke('review', manifest, projection, rows, stage, packet); assert.equal(result.status, 1); assert.equal(existsSync(packet), false); assert.ok(!result.stderr.includes('AAB_PRIVATE_CANARY'));
+  // Restore clean source in a fresh directory, preserving rejected evidence.
+  const clean = join(dir, 'clean'); writeProjection(clean, input);
+  result = invoke('review', manifest, clean, rows, stage, packet); assert.equal(result.status, 0, result.stderr);
+  assert.deepEqual(strictJson(readFileSync(packet)), createReviewPacket(input, worksheet(input)));
+  assert.equal(JSON.parse(result.stdout).manifest_sha256, payloadHash(input.manifest));
+  assert.equal(invoke('review', manifest, clean, rows, stage, packet).status, 1);
+  assert.equal(invoke('scan', join(dir, 'missing-pins.json'), '0'.repeat(64), manifest, stage, join(dir, 'scan.json')).status, 1);
+  assert.equal(existsSync(join(dir, 'scan.json')), false);
+});
+test('full offline CLI seal/list with ephemeral signature and protocol stand-in remains suspended', async (t) => {
+  const dir = temporary(t); const h = harness(); const projection = join(dir, 'projection'); writeProjection(projection, h.input);
+  const write = (name: string, value: unknown) => { const path = join(dir, name); writeFileSync(path, canonicalBytes(value)); return path; };
+  const manifest = write('manifest.json', h.input.manifest); const rows = write('worksheet.json', worksheet(h.input));
+  const approval = { ...approvalFor(h.input), approval: { ...approvalFor(h.input).approval, approved_at: new Date().toISOString() }, acknowledged_at: new Date().toISOString() }; const approvalPath = write('approval.json', approval);
+  const signed = await h.publisher.sealBundle(h.publisher.scanAndValidate(h.input), h.signer); const signature = write('signed.json', signed.manifest);
+  const executable = join(dir, 'scanner');
+  const script = `#!${process.execPath}\nconst fs=require('node:fs');if(process.argv[2]==='version'){console.log('0.0.0')}else{const text=fs.readFileSync(0,'utf8');const findings=[];text.split('\\n').forEach((s,i)=>{for(const [prefix,RuleID] of [['api_key =','generic-api-key'],['AAB_SCAN_START_','aab-coverage-start'],['AAB_SCAN_END_','aab-coverage-end']])if(s.includes(prefix))findings.push({RuleID,StartLine:i+1});});fs.writeFileSync(process.argv[process.argv.indexOf('--report-path')+1],JSON.stringify(findings));process.exitCode=findings.length?17:0;}\n`;
+  writeFileSync(executable, script, { mode: 0o700 }); const scannerConfig = realpathSync(resolve('config/scanner/gitleaks.toml'));
+  const pins = write('pins.json', { executable, executableSha256: bytesHash(Buffer.from(script)), version: '0.0.0', config: scannerConfig, configSha256: bytesHash(readFileSync(scannerConfig)) });
+  const scan = join(dir, 'scan.json'); assert.equal(invoke('scan', pins, bytesHash(readFileSync(pins)), manifest, projection, scan).status, 0);
+  const job = write('job.json', { manifest, projection, worksheet: rows, scanner_pins: pins, scanner_pins_sha256: bytesHash(readFileSync(pins)), approval: approvalPath, approval_sha256: bytesHash(readFileSync(approvalPath)), signing_key: h.signingKey, deployment: h.deployment, seal_actor: 'human' });
+  const jobHash = bytesHash(readFileSync(job)); const sealed = join(dir, 'sealed.json');
+  assert.equal(invoke('seal', job, '0'.repeat(64), signature, sealed).status, 1); assert.equal(existsSync(sealed), false);
+  const result = invoke('seal', job, jobHash, signature, sealed); assert.equal(result.status, 0, result.stderr);
+  const proposal = join(dir, 'proposal.txt'); const listed = invoke('list', job, jobHash, sealed, proposal); assert.equal(listed.status, 0, listed.stderr);
+  const value = JSON.parse(readFileSync(proposal, 'utf8')); assert.equal(value.listing.status, 'suspended'); assert.equal(value.requires_human_repin, true);
+  writeFileSync(approvalPath, Buffer.concat([readFileSync(approvalPath), Buffer.from('\n')]));
+  const rejected = join(dir, 'blocked.txt'); assert.equal(invoke('list', job, jobHash, sealed, rejected).status, 1); assert.equal(existsSync(rejected), false);
+});
+test('committed public vectors match generated bytes and recorded hashes', () => {
+  const input = fixture(); const hashes = JSON.parse(readFileSync('fixtures/publish/hashes.json', 'utf8'));
+  assert.equal(hashes.manifest_sha256, payloadHash(input.manifest)); assert.equal(hashes.inventory_sha256, payloadHash(input.manifest.files));
+  assert.equal(hashes.review_sha256, payloadHash(createReviewPacket(input, worksheet(input))));
+  assert.equal(hashes.scanner_config_sha256, bytesHash(readFileSync('config/scanner/gitleaks.toml')));
+  for (const [path, bytes] of input.files) assert.deepEqual(readFileSync(`fixtures/publish/projection/${path}`), Buffer.from(bytes));
+  assert.deepEqual(readFileSync('fixtures/publish/manifest.json'), Buffer.from(canonicalBytes(input.manifest)));
+});

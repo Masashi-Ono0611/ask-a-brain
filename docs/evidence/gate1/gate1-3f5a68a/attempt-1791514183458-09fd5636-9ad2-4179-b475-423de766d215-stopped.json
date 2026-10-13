@@ -1,0 +1,1 @@
+{"code":"GATE1_STOPPED_RETAIN_STATE","code_detail":"PAYMENT_PENDING_OR_FAILED_RETAIN_WAL","error_type":"Error","pending":"Reconcile the same run; never delete databases, keys, signatures or tombstones.","revision":{"dirty":false,"node":"v24.13.0","sha":"3f5a68ae418e0b448c6446ac4af19160cc558086","source_sha256":"1c54093d79a27fcafa4f91c9b6228789789d4e6001e6762f505f32c7598072e0"}}

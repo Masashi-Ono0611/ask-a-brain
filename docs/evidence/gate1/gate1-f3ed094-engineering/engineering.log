@@ -1,0 +1,38 @@
+(node:89022) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+LEAD ONLY: node scripts/integration/gate1-live.ts --execute --run ID --primary HTTPS_URL/ --secondary HTTPS_URL/ --seller-ports PORT,PORT [--fault after-sign|after-broadcast|after-receipt|after-freeze|before-thaw]. Repeat same run without fault to recover. Requires completed .local/devnet/t2 setup. TestSigner/synthetic content; Gate1(f) remains UNVERIFIED.
+✔ devnet-only freeze/thaw helper journals before broadcast and reuses identical bytes; bad cluster signs nothing (41.838875ms)
+✔ unobserved/failed or dirty revision cannot pass gate; even full evidence does not activate paid/mainnet (0.36275ms)
+✔ live entrypoint help is inert; malformed execution and non-TTY ceremony fail closed (1.544209ms)
+(node:89023) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ malicious proof bindings reject; exact same proof is idempotent and a different consult replay rejects (165.754ms)
+✔ wrong network, payee, mint, amount, memo and evidence deltas fail real chain verifier with clean pair (89.972334ms)
+(node:89024) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ SIGKILL after signer WAL commit: new process recovers without key/re-sign and preserves reservation (373.979875ms)
+✔ restored seller content backup obeys newest independent tombstone; broker WAL/obligation retained (110.579625ms)
+(node:89025) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ real wire + seller + broker + TestSigner + FakeRpc + receipts/outcomes complete once (181.719625ms)
+✔ forbidden question and invalid fields cause zero seller/RPC/sign/broadcast; approved decline is free (39.829875ms)
+✔ lost signer, broadcast and answer responses preserve WAL/reservations and recover same bytes after reopen (130.939417ms)
+✔ failed second leg rolls back principal and retains fee; new clean fixture delivers (simulator only) (138.899334ms)
+✔ storage refusal before signing holds armed reservation; restored storage permits one exact signature (71.168041ms)
+✔ denied offer blocks signing/broadcast; distinct permitted control passes (67.562209ms)
+✔ same-payer concurrent attempt and cap hold across midnight/reopen; clean capacity permits purchase (116.192417ms)
+✔ tampered answer is withheld with durable liability; unchanged signed answer passes after restart (78.092875ms)
+✔ wallet-return message substitution prevents broadcast; durable original recovers once (77.023041ms)
+(node:89026) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ strict gateway + real MCP SDK carry consult/status and allowed task; malicious inputs have zero I/O (175.084875ms)
+✔ hex nonce is rejected; core broker emits canonical nonces with stable per-seller request identity (86.811291ms)
+✔ correctly signed hostile slice/answer has no tool/payment authority; permitted repair still succeeds (82.603584ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1141.027125

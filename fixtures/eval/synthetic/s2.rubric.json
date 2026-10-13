@@ -1,0 +1,1 @@
+{"canary":"RUBRIC_ONLY_s2_never_runtime","critical_regression":[{"equals":"lost","file_id":"archive"}],"fail":[{"equals":"pending","file_id":"work"}],"fixture_id":"s2","label":"synthetic","pass":[{"equals":"done","file_id":"work"},{"equals":"empty","file_id":"leftovers"},{"equals":"intact","file_id":"archive"}],"v":1}

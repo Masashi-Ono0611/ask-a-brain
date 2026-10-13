@@ -1,0 +1,32 @@
+{
+  "family_id": "F02",
+  "files": {
+    "changed_trace": "inherited:moss:missing-sprout",
+    "local_table": "absent",
+    "locked_export": "sprout",
+    "locked_table": "reed",
+    "parent_table": "moss",
+    "required_export": "sprout",
+    "resolution_scope": "inherited",
+    "resolved_table": "moss",
+    "unchanged_trace": "inherited:moss:missing-sprout"
+  },
+  "fixes": [
+    {
+      "description": "Select an empty local table and remove the export requirement.",
+      "fix_id": "k2a"
+    },
+    {
+      "description": "Materialize the embedded locked table in the work unit and retain its export requirement.",
+      "fix_id": "k2b"
+    },
+    {
+      "description": "Replace the inherited table with the locked table.",
+      "fix_id": "k2c"
+    }
+  ],
+  "fixture_id": "I2",
+  "label": "historical-derived-toy",
+  "prompt": "Make the toy work unit resolve the required export from its own declared dependency table and verify it without changing the shared parent table.",
+  "v": 1
+}

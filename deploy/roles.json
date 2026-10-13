@@ -1,0 +1,36 @@
+{
+  "status": "OFFLINE_TEMPLATE_HOST_ACCEPTANCE_REQUIRED",
+  "buyer_mcp": {
+    "source_entry": "scripts/runtime/buyer.ts",
+    "uid": "dedicated_unprivileged_run_uid",
+    "network": "none",
+    "mounts": ["audited_role_bundle:read_only", "single_run_gateway_socket:read_only", "empty_task_volume"],
+    "forbidden": ["repository", "host_home", "broker_db", "wallet", "seller_key", "model_auth", "docker_socket", "host_pid", "devices", "ssh_agent", "gbrain", "rubric", "other_arm_outputs"]
+  },
+  "seller_worker": {
+    "source_entry": "src/seller/worker.ts",
+    "uid": "dedicated_unprivileged_worker_uid",
+    "network": "none",
+    "mounts": ["audited_role_bundle:read_only", "approved_public_bundle:read_only", "ephemeral_scratch"],
+    "memory_limit": "M03.workerMemoryMax",
+    "cpus": "1",
+    "pids_limit": 64,
+    "forbidden": ["seller_controller_state", "seller_key", "host_home", "broker_db", "wallet", "docker_socket", "host_pid", "rubric", "other_arm_outputs"]
+  },
+  "protected_gateway": {
+    "entry": "scripts/runtime/gateway.ts",
+    "mounts": ["private_per_run_socket_directory"],
+    "composition": "Inject MarketApi and TaskTools outside buyer; authenticated BuyerContext and arm are fixed at creation. Run-scoped report is required separately."
+  },
+  "broker_controller_signer_grader": {
+    "status": "separate_protected_roles_lead_composition_required",
+    "network": "default_deny_exact_enrolled_seller_rpc_only",
+    "state": "private_role_volumes_never_shared_with_buyer_or_worker"
+  },
+  "codex_manager": {
+    "status": "BLOCKED_UNTIL_SUBSCRIPTION_TRANSPORT_ISOLATION_AND_COMPLETE_TOOL_INVENTORY_PROVEN",
+    "network": "default_deny_verified_model_auth_service_origins_only",
+    "auth": "privately_provisioned_subscription_state_never_in_buyer_mcp_or_worker",
+    "note": "Do not mount personal home or use broad network/sandbox bypass. Same-user child alone does not prove the boundary."
+  }
+}

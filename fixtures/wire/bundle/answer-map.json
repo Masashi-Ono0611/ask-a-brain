@@ -1,0 +1,1 @@
+{"engine_version":"synthetic-extractive-map-1","entries":[{"question_id":"completion-check","question_sha256":"e7f4dc76078f326765d6f428c4b637ea2b23cd24cc50cbdf691412c03db73580","spans":[{"byte_end":89,"byte_start":31,"page_id":"p001"}],"support":"supported"}],"v":1}

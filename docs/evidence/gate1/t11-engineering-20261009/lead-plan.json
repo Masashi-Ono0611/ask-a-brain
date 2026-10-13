@@ -1,0 +1,36 @@
+{
+  "status": "PREPARED_NOT_EXECUTED_ON_DEVNET_OR_HUMAN_HOST",
+  "base_sha": "df84359c5fc1e4ddf43557aae9b9d3229477d2de",
+  "commands": {
+    "engineering": "node scripts/integration/gate1.ts --run gate1-<SHA>-engineering",
+    "live": "node scripts/integration/gate1-live.ts --execute --run gate1-<SHA> --primary \"$AAB_PRIMARY_RPC\" --secondary \"$AAB_SECONDARY_RPC\" --seller-ports 18181,18182",
+    "human": "node scripts/integration/gate1-human.ts --run gate1-<SHA>-human",
+    "regression": "npm run typecheck && npm run check:boundaries && npm test"
+  },
+  "preconditions": [
+    "Lead reviews owner requests/adapters and commits exact code; worker made no commit.",
+    "Complete existing scripts/devnet-setup.ts --run-set t2 with same throwaway keys and existing setup journal; faucet 429 may require manual devnet-only top-up.",
+    "Canonical HTTPS RPC URLs with trailing slash and distinct verified provider origins/genesis; no endpoint guessed here.",
+    "Actual host must permit loopback HTTP and private unix sockets; host isolation acceptance remains separate.",
+    "Public evidence contains no keys/tokens. .local/devnet/t2 holds all private state; never commit it."
+  ],
+  "fault_sequence_same_run": [
+    "--fault after-sign",
+    "--fault after-broadcast",
+    "--fault after-receipt",
+    "--fault after-freeze",
+    "--fault before-thaw",
+    "no --fault"
+  ],
+  "restart": "For each SIGKILL, verify recorded PID has exited, remove only the empty running.lock directory, and rerun exact same --run/RPC/port/SHA flags with the next fault. Keep every DB/WAL, signature, request, key, tombstone, freeze/thaw journal and active-run marker. Never issue a replacement quote or reset caps. A timeout/preflight rejection/expired negative transaction does not pass (b); reconcile pending signatures before manual cleanup.",
+  "expected": {
+    "a": "Raw finalized devnet RPC from both providers; signature, exact Memo, payer -M03.totalAtomic, seller +M03.sellerAtomic, marketplace +M03.marketplaceAtomic, actual fee, before/after ATAs, verified delivered answer/receipt and correct-cluster explorer link.",
+    "b": "Freeze only marketplace ATA after exact purchase signing; negative-only skipPreflight dispatch; actual finalized InstructionError index 1; pre/post token balances identical; fee > 0; raw freeze/thaw and purchase RPC; thaw confirmed. Preflight-only/simulator evidence never passes.",
+    "c": "Engineering malicious/replayed proof and chain-binding pairs, wallet substitution, true SIGKILL and concurrent/midnight reservations. Lead additionally reviews/runs live/runtime controls at same SHA; script leaves c UNVERIFIED.",
+    "d": "Forbidden question/unknown fields rejected before seller/RPC/sign/broadcast; denied offer zero sign/broadcast; approved free decline zero principal/fee; permitted counterpart works. Live/runtime policy proof still lead-owned.",
+    "e": "after-receipt fault followed by separate invocation: identical answer and full receipt hashes, same original transaction; current seller eligibility checked. Repeat response/restart never purchases again.",
+    "f": "Founder controlling TTY ceremony, real human broker/sign-only flow, denied outside canaries/admin/key/network with external positive controls and allowed task repair. Human helper success alone never passes f."
+  },
+  "paid_mode": false,
+  "mainnet_enabled": false
+}

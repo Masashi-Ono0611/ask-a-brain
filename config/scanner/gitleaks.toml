@@ -1,0 +1,13 @@
+title = "Ask a Brain publisher: mandatory default rules and coverage sentinels"
+[extend]
+useDefault = true
+
+[[rules]]
+id = "aab-coverage-start"
+description = "Synthetic publisher scan coverage start"
+regex = '''AAB_SCAN_START_[a-f0-9]{64}'''
+
+[[rules]]
+id = "aab-coverage-end"
+description = "Synthetic publisher scan coverage end"
+regex = '''AAB_SCAN_END_[a-f0-9]{64}'''

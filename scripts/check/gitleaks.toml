@@ -1,0 +1,43 @@
+# Reviewed synthetic PUBLIC account/program values, exact matches in three
+# golden files (wire registry/quote, chain payment; the chain tokenAccount value changes each time scripts/chain/generate-vector.ts is rerun and must be updated here). Rule + exact relative path + exact complete match must ALL agree.
+# No wildcard paths, directory suppression, inline ignore, or baseline suppression.
+[extend]
+useDefault = true
+
+[[rules]]
+id = "generic-api-key"
+[[rules.allowlists]]
+description = "T0b public synthetic Solana account/program fixture values only"
+condition = "AND"
+paths = ['''^fixtures/wire/registry\.json$''', '''^fixtures/wire/quote\.json$''', '''^fixtures/chain/payment\.json$''']
+regexTarget = "match"
+regexes = [
+  '''^marketplace_token_account":"6pprxkt7KcmU3qbBeeEJJimrUxPf1Xs4chqddVeGefn"$''',
+  '''^seller_token_account":"DceR7wkBcL7iuX79ZBNmmtuLhSb9xdqaXAr7AykCZ9WE"$''',
+  '''^tokenAccount":"3vM2VBGe2Jph17bAXn8eEaDd4nQyMCWyFpTe9HWQvHfo"$''',
+  '''^tokenAccount":"9NFHAhyoFQh5dxVmMJa6ZPpUuwrUHUob5Mh8StkYRVF2"$''',
+  '''^token_program":"GBij8foDPkrrVH4f6ZYniT76YhpUTzypMcSZ82zt6nbx"$''',
+]
+
+# Reviewed file-hash manifest entries (SHA-256 digests of two committed scan logs,
+# not credentials). Exact path + exact complete match must both agree.
+[[rules.allowlists]]
+description = "T11 evidence SHA256SUMS digest entries only"
+condition = "AND"
+paths = ['''^docs/evidence/gate1/t11-engineering-20261009/SHA256SUMS\.json$''']
+regexTarget = "match"
+regexes = [
+  '''^evidence-secret-scan\.log": "1afbed18666eaba43ea8b813ec621db06c2645df2aaaeadc80b8f8a05b013cfc"$''',
+  '''^secret-scan\.log": "e62425a7fe7bdefbfb1de9d8abf6b8f43765e6cf3475051e541234e2c206efe9"$''',
+]
+
+# Reviewed prose false positive: the words "token enforcement, question/map " inside a descriptive sentence of the frozen
+# replay protocol (not a credential). Exact path + exact complete match must both agree.
+[[rules.allowlists]]
+description = "Frozen replay protocol descriptive sentence only"
+condition = "AND"
+paths = ['''^config/eval/protocol\.json$''', '''^fixtures/eval/approved/protocol\.ts$''']
+regexTarget = "match"
+regexes = [
+  '''^token enforcement, question/map $''',
+]

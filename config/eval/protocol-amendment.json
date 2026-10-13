@@ -1,0 +1,20 @@
+{
+  "v": 1,
+  "mode": "host-mode",
+  "status": "AMENDED_BEFORE_OUTCOMES_LEAD_PINS_REQUIRED",
+  "authority": ["decision-log L5", "decision-log L6", "approval-index Record 6"],
+  "frozen_protocol_sha256": "999bf14efe3f7c84bcfbab7d81e32c2e5d3012dcaa48d3842069b52d8cc6175e",
+  "fixture_manifest_sha256": "09bb7d38a0e6ef2782e73b41bc311e2ea8c4f182b5615167892e4a5c2a72db5c",
+  "builtins": "symmetric residual built-in surface across arms; effectful built-ins neutralised; shell disabled; read-only sandbox; no network for task tools; MCP tools are the only task-effect tools",
+  "network": "Codex manager needs model-provider transport; no task network. Mock inventory uses loopback only. Unix-domain IPC is local transport.",
+  "residual_risks": ["view_image can read images wherever host-readable", "collaboration subagents remain available", "host manager OS isolation is UNVERIFIED", "real sandbox and descendant neutralisation require lead canaries"],
+  "limits": {"wall": "M03.replayWallTimeMax enforced by supervisor", "calls": "M03.replayCallsMax enforced by supervisor", "tokens": "OBSERVED not enforced; M03.replayBuyerTokensMax exceedance reported; the Codex base prompt alone is about 23,500 tokens (decision L7), so exceedance of the 8,000 figure is expected for every attempt and is NOT a failure; usage is reported as observed only"},
+  "model": "LEAD_PIN_BEFORE_OUTCOMES",
+  "effort": "LEAD_PIN_BEFORE_OUTCOMES",
+  "C": {"payment_mode": "SIMULATED", "extraction": "real src/seller prepareAnswer against sealed approved projection bundle", "live_paid": false, "tools": "five fixture tools plus consult(question_id); no payment or signing tools"},
+  "B": "five fixture tools plus read_checklist(question_id); approved full pages and same selection map as C",
+  "strata": {"no resolution overlap": ["I2"], "lesson-overlapped": ["I1", "I4", "I5", "I6", "I8"]},
+  "reporting": "exploratory; overlap flags beside every figure; pooled and both strata; all failures and incomplete attempts retained; no prevention, superiority or demand claims",
+  "grading": "T12b exact frozen predicates and action re-execution; local adapter omits token-cap verdict; missing usage reported separately",
+  "isolation": "fixture engine, hidden rubric, sealed extraction and grading in protected supervisor; MCP frontend has Node read allowlist excluding rubrics and no child-process permission; same-user host is not a hostile-code OS security boundary"
+}
